@@ -12,9 +12,9 @@ Fuente tecnica canonica de la landing publica de TRICOT.
 - Agentes IA permanece fuera de la navegacion comercial y sujeto a su gate de
   evidencia.
 - Entidad institucional y recorrido de primera consulta completados en local.
-- Hub de recursos y primera guia original de Property Management completados en
-  local, con aprendizaje operativo anonimizado y sin presentarlo como caso de
-  cliente.
+- Hub de recursos y primera guia original de Property Management publicados en
+  castellano e ingles, con aprendizaje operativo anonimizado y sin presentarlo
+  como caso de cliente.
 - Captacion: desactivada de forma explicita; no se recoge ni guarda el email.
 - Indexacion: desactivada desde una politica central. Las paginas revisadas usan
   `noindex, follow`; Agentes IA conserva `noindex, nofollow`.
@@ -22,7 +22,7 @@ Fuente tecnica canonica de la landing publica de TRICOT.
   pagina 404 bilingue.
 - Rendimiento: T5 publicado con imágenes responsivas, wordmark optimizado y
   fuentes locales. La última traza móvil fría registró LCP 1,78 s y CLS 0.
-- Estado publico: T0-T5 estan publicados. La indexacion y la captacion siguen
+- Estado publico: T0-T6 estan publicados. La indexacion y la captacion siguen
   bloqueadas por sus gates separados.
 
 ## Publicacion
