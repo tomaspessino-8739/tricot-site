@@ -11,6 +11,12 @@ function renderList(items) {
   return items.map((item, index) => `<article class="t3-card"><span>0${index + 1}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.text)}</p></article>`).join("");
 }
 
+function renderHighlightedText(value, highlight) {
+  if (!highlight || !value.includes(highlight)) return escapeHtml(value);
+  const [before, ...after] = value.split(highlight);
+  return `${escapeHtml(before)}<em>${escapeHtml(highlight)}</em>${escapeHtml(after.join(highlight))}`;
+}
+
 export function renderT3Page(page) {
   const homeLabel = page.lang === "es" ? "Inicio" : "Home";
   const noindex = page.lang === "es"
@@ -24,7 +30,7 @@ export function renderT3Page(page) {
         <div class="hero-grid">
           <div class="hero-copy reveal">
             <p class="kicker">${escapeHtml(page.kicker)}</p>
-            <h1 id="hero-title">${escapeHtml(page.h1)}</h1>
+            <h1 id="hero-title">${renderHighlightedText(page.h1, page.h1Accent)}</h1>
             <p class="hero-lede">${escapeHtml(page.subtitle)}</p>
             <div class="hero-actions"><a class="button button-primary" href="${page.primaryUrl}">${escapeHtml(page.primaryCta)} <span aria-hidden="true">↗</span></a><a class="text-link" href="${page.secondaryUrl}">${escapeHtml(page.secondaryCta)}</a></div>
           </div>

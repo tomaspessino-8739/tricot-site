@@ -14,6 +14,7 @@ const hubEs = {
   breadcrumb: "Recursos",
   kicker: "Recursos · Operaciones · Property Management",
   h1: "La automatización empieza mucho antes de pulsar «conectar».",
+  h1Accent: "mucho antes de pulsar «conectar».",
   subtitle: "Guías para entender qué dato manda, qué estado cambia y quién responde cuando la operación no sigue el camino feliz.",
   answer: "Los recursos de TRICOT convierten problemas operativos recurrentes en modelos de decisión, contratos de datos y secuencias de implantación. No son recetas universales ni catálogos de herramientas.",
   principles: [
@@ -49,6 +50,7 @@ const hubEn = {
   breadcrumb: "Resources",
   kicker: "Resources · Operations · Property Management",
   h1: "Automation starts long before you click ‘connect’.",
+  h1Accent: "long before you click ‘connect’.",
   subtitle: "Guides for deciding which data source is authoritative, which state has changed and who responds when the operation leaves the happy path.",
   answer: "TRICOT resources turn recurring operational problems into decision models, data contracts and implementation sequences. They are not universal recipes or tool catalogues.",
   principles: [
@@ -85,6 +87,7 @@ const articleEs = {
   breadcrumb: "Conectar reservas y operación",
   kicker: "Guía 01 · Property Management · Arquitectura operativa",
   h1: "Tu PMS sabe que hay una reserva. La operación necesita saber qué ocurre después.",
+  h1Accent: "La operación necesita saber qué ocurre después.",
   subtitle: "Una arquitectura práctica para conectar reservas, tareas, limpieza, cobros y reporting sin convertir una sola herramienta en juez de todo.",
   readingTime: "12 min de lectura",
   updatedLabel: "Actualizado el 30 de agosto de 2026",
@@ -211,6 +214,7 @@ const articleEn = {
   description: "A practical architecture for connecting PMS data, bookings, tasks, cleaning, payments and reporting without merging states or losing traceability.",
   breadcrumb: "Connect bookings and operations", kicker: "Guide 01 · Property Management · Operational architecture",
   h1: "Your PMS knows there is a booking. Operations need to know what happens next.",
+  h1Accent: "Operations need to know what happens next.",
   subtitle: "A practical architecture for connecting bookings, tasks, cleaning, payments and reporting without making one tool the judge of everything.",
   readingTime: "12 min read", updatedLabel: "Updated 30 August 2026",
   answerTitle: "You do not need to start by replacing the PMS.",

@@ -11,6 +11,12 @@ function renderItems(items, renderItem) {
   return items.map(renderItem).join("");
 }
 
+function renderHighlightedText(value, highlight) {
+  if (!highlight || !value.includes(highlight)) return escapeHtml(value);
+  const [before, ...after] = value.split(highlight);
+  return `${escapeHtml(before)}<em>${escapeHtml(highlight)}</em>${escapeHtml(after.join(highlight))}`;
+}
+
 export function renderServicePage(page) {
   const gated = Boolean(page.evidenceNotice);
   const consultationUrl = gated ? "#contacto" : (page.lang === "es" ? "/diagnostico-operativo/" : "/en/initial-consultation/");
@@ -49,7 +55,7 @@ export function renderServicePage(page) {
         <div class="hero-grid">
           <div class="hero-copy reveal">
             <p class="kicker">${escapeHtml(page.kicker)}</p>
-            <h1 id="hero-title">${escapeHtml(page.h1)}</h1>
+            <h1 id="hero-title">${renderHighlightedText(page.h1, page.h1Accent)}</h1>
             <p class="hero-lede">${escapeHtml(page.subtitle)}</p>
             <div class="hero-actions"><a class="button button-primary" href="${consultationUrl}">${escapeHtml(page.primaryCta)} <span aria-hidden="true">↗</span></a><a class="text-link" href="#respuesta">${escapeHtml(page.secondaryCta)} <span aria-hidden="true">↓</span></a></div>
           </div>

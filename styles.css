@@ -2,16 +2,16 @@
   font-family: "Cinzel";
   font-style: normal;
   font-weight: 400 500;
-  font-display: optional;
+  font-display: swap;
   src: url("assets/fonts/cinzel-latin.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Inter";
+  font-family: "Montserrat";
   font-style: normal;
-  font-weight: 300 700;
-  font-display: optional;
-  src: url("assets/fonts/inter-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("assets/fonts/montserrat-latin.woff2") format("woff2");
 }
 
 :root {
@@ -28,7 +28,8 @@
   --success: #18794e;
   --danger: #b42318;
   --display: "Cinzel", Georgia, serif;
-  --body: "Inter", Arial, sans-serif;
+  --body: "Montserrat", Arial, sans-serif;
+  --reading: "Courier New", Courier, monospace;
   --page: min(100% - 72px, 1320px);
   --ease: cubic-bezier(0.2, 0.75, 0.25, 1);
   color: var(--ink);
@@ -50,6 +51,8 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 h1, h2, h3, p, figure, blockquote, ol { margin-top: 0; }
 h1, h2, h3 { font-family: var(--display); font-weight: 400; }
 h1 em, h2 em, blockquote em { color: var(--accent); font-style: normal; }
+p { font-family: var(--reading); }
+.hero-lede, .hero-proof, .section-intro, .resource-intro, .resource-meta, .kicker, .eyebrow, .readiness-label, .privacy-note, .form-status, .related-links > p, .product-demo p, .decision-point p { font-family: var(--body); }
 
 .skip-link { position: fixed; top: 10px; left: 10px; z-index: 1000; padding: 10px 14px; transform: translateY(-160%); background: var(--ink); color: #fff; font-size: .75rem; }
 .skip-link:focus { transform: translateY(0); }
@@ -500,6 +503,7 @@ h1 em, h2 em, blockquote em { color: var(--accent); font-style: normal; }
   .brand, .brand img { width: 126px; height: 38px; }
   .site-nav { top: 64px; padding-inline: 18px; }
   .hero { min-height: auto; padding-top: 94px; }
+  h1, h2, h3 { overflow-wrap: anywhere; }
   .hero-grid { min-height: 0; grid-template-columns: 1fr; }
   .hero-copy { padding-block: 26px 10px; }
   .hero h1 { font-size: clamp(2.55rem, 12vw, 4.2rem); }
@@ -522,15 +526,18 @@ h1 em, h2 em, blockquote em { color: var(--accent); font-style: normal; }
   .reality-grid { grid-template-columns: 1fr; }
   .reality-quote { font-size: clamp(1.9rem, 8.5vw, 3.2rem); }
   .system-row { gap: 42px; }
-  .product-demo { overflow-x: auto; }
+  .system-row > *, .product-demo { min-width: 0; }
+  .product-demo { width: 100%; overflow-x: auto; }
   .metric-strip, .property-samples { min-width: 600px; }
   .ops-board { min-width: 560px; }
+  .product-demo.ops-board { min-width: 0; }
   .booking-line { min-width: 620px; }
   .automation-section, .contact-section { padding-inline: 18px; }
   .automation-grid { grid-template-columns: 1fr; }
   .automation-grid article, .automation-grid article:nth-child(even) { min-height: 220px; padding: 24px 0; border-left: 0; }
   .automation-grid h3 { margin-top: 64px; }
   .agent-layout { grid-template-columns: 1fr; }
+  .agent-layout > * { min-width: 0; }
   .agent-intro h2 { font-size: clamp(2.35rem,11vw,4rem); }
   .method-list li { min-height: 190px; grid-template-columns: 48px 1fr; padding-block: 24px; }
   .method-list small { grid-column: 2; }

@@ -14,12 +14,18 @@ function renderContact(page) {
   </section>`;
 }
 
+function renderHighlightedText(value, highlight) {
+  if (!highlight || !value.includes(highlight)) return escapeHtml(value);
+  const [before, ...after] = value.split(highlight);
+  return `${escapeHtml(before)}<em>${escapeHtml(highlight)}</em>${escapeHtml(after.join(highlight))}`;
+}
+
 function renderHub(page) {
   const homeLabel = page.lang === "es" ? "Inicio" : "Home";
   return `<main id="contenido">
     <section class="hero service-hero resource-hub-hero" id="inicio" aria-labelledby="hero-title">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="${page.homeUrl}">${homeLabel}</a><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(page.breadcrumb)}</span></nav>
-      <div class="hero-grid"><div class="hero-copy reveal"><p class="kicker">${escapeHtml(page.kicker)}</p><h1 id="hero-title">${escapeHtml(page.h1)}</h1><p class="hero-lede">${escapeHtml(page.subtitle)}</p></div>
+      <div class="hero-grid"><div class="hero-copy reveal"><p class="kicker">${escapeHtml(page.kicker)}</p><h1 id="hero-title">${renderHighlightedText(page.h1, page.h1Accent)}</h1><p class="hero-lede">${escapeHtml(page.subtitle)}</p></div>
       <div class="resource-principles reveal" data-delay="1">${page.principles.map((item, index) => `<div><span>0${index + 1}</span><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.text)}</p></div>`).join("")}</div></div>
     </section>
     <section class="story-section section-dark resource-answer" aria-labelledby="resource-answer-title"><div class="story-copy reveal"><p class="kicker kicker-inverse">${page.lang === "es" ? "Criterio editorial" : "Editorial criteria"}</p><h2 id="resource-answer-title">${escapeHtml(page.answer)}</h2><p class="source-note">${escapeHtml(page.note)}</p></div></section>
@@ -49,7 +55,7 @@ function renderArticle(page) {
     <article>
       <header class="hero service-hero resource-article-hero" id="inicio">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="${page.homeUrl}">${homeLabel}</a><span aria-hidden="true">/</span><a href="${page.hubUrl}">${hubLabel}</a><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(page.breadcrumb)}</span></nav>
-        <div class="resource-hero-copy reveal"><p class="kicker">${escapeHtml(page.kicker)}</p><h1 id="hero-title">${escapeHtml(page.h1)}</h1><p class="hero-lede">${escapeHtml(page.subtitle)}</p><p class="resource-meta"><span>${escapeHtml(page.readingTime)}</span><span>${escapeHtml(page.updatedLabel)}</span></p></div>
+        <div class="resource-hero-copy reveal"><p class="kicker">${escapeHtml(page.kicker)}</p><h1 id="hero-title">${renderHighlightedText(page.h1, page.h1Accent)}</h1><p class="hero-lede">${escapeHtml(page.subtitle)}</p><p class="resource-meta"><span>${escapeHtml(page.readingTime)}</span><span>${escapeHtml(page.updatedLabel)}</span></p></div>
       </header>
       <section class="resource-direct-answer section-dark" aria-labelledby="direct-answer-title"><div><p class="kicker kicker-inverse">${page.lang === "es" ? "Respuesta directa" : "Direct answer"}</p><h2 id="direct-answer-title">${escapeHtml(page.answerTitle)}</h2><p>${escapeHtml(page.answer)}</p><aside>${escapeHtml(page.answerNote)}</aside></div>
       <nav class="resource-toc" aria-label="${escapeHtml(page.tocLabel)}"><p>${escapeHtml(page.tocLabel)}</p>${page.toc.map((item) => `<a href="${item.url}">${escapeHtml(item.label)} <span aria-hidden="true">↘</span></a>`).join("")}</nav></section>

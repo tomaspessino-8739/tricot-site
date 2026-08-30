@@ -26,6 +26,16 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function headingText(source) {
+  return source
+    .replace(/<[^>]+>/g, "")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#039;", "'");
+}
+
 async function verifyPage(relativePath, contract) {
   const source = await readFile(resolve(root, relativePath), "utf8");
   expect(source, new RegExp(`<html lang="${contract.lang}">`), `${relativePath}: lang`);
@@ -35,12 +45,16 @@ async function verifyPage(relativePath, contract) {
   expect(source, new RegExp(`hreflang="en" href="${escapeRegex(contract.hreflangEn)}"`), `${relativePath}: hreflang en`);
   expect(source, new RegExp(`hreflang="x-default" href="${escapeRegex(contract.hreflangEs)}"`), `${relativePath}: hreflang x-default`);
   expect(source, /<script type="application\/ld\+json">/, `${relativePath}: JSON-LD`);
-  expect(source, new RegExp(`<h1 id="hero-title">${escapeRegex(escapeHtml(contract.h1))}</h1>`), `${relativePath}: approved H1`);
+  const h1Match = source.match(/<h1 id="hero-title">([\s\S]*?)<\/h1>/);
+  if (!h1Match || headingText(h1Match[1]) !== contract.h1) failures.push(`${relativePath}: approved H1`);
   expect(source, /property="og:title"/, `${relativePath}: Open Graph`);
   expect(source, /class="language-link"/, `${relativePath}: language switch`);
+  expect(source, /rel="preload" href="[^"]*assets\/fonts\/cinzel-latin\.woff2" as="font" type="font\/woff2" crossorigin/, `${relativePath}: Cinzel preload`);
+  expect(source, /rel="preload" href="[^"]*assets\/fonts\/montserrat-latin\.woff2" as="font" type="font\/woff2" crossorigin/, `${relativePath}: Montserrat preload`);
   expect(source, /aria-labelledby="contact-title"/, `${relativePath}: readiness section`);
   const h1Count = (source.match(/<h1\b/g) || []).length;
   if (h1Count !== 1) failures.push(`${relativePath}: expected one H1, found ${h1Count}`);
+  if (!/<h1 id="hero-title">[\s\S]*?<em>[\s\S]*?<\/em>[\s\S]*?<\/h1>/.test(source)) failures.push(`${relativePath}: H1 editorial accent`);
   const jsonLdMatch = source.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   if (jsonLdMatch) {
     try {
@@ -121,7 +135,7 @@ for (const page of resourcePages) {
   });
 }
 
-for (const file of ["styles.css", "app.js", "robots.txt", "sitemap.xml", "404.html", "assets/brand/favicon.svg", "assets/brand/tricot-wordmark.png", "assets/brand/tricot-wordmark-600.webp", "assets/brand/tricot-wordmark-900.webp", "assets/fonts/cinzel-latin.woff2", "assets/fonts/inter-latin.woff2", "assets/images/tricot-hero-property.jpg", "assets/images/tricot-hero-property-540.webp", "assets/images/tricot-hero-property-720.webp", "assets/images/tricot-hero-property-1080.webp"]) {
+for (const file of ["styles.css", "app.js", "robots.txt", "sitemap.xml", "404.html", "assets/brand/favicon.svg", "assets/brand/tricot-wordmark.png", "assets/brand/tricot-wordmark-600.webp", "assets/brand/tricot-wordmark-900.webp", "assets/fonts/cinzel-latin.woff2", "assets/fonts/montserrat-latin.woff2", "assets/images/tricot-hero-property.jpg", "assets/images/tricot-hero-property-540.webp", "assets/images/tricot-hero-property-720.webp", "assets/images/tricot-hero-property-1080.webp"]) {
   try {
     await access(resolve(root, file));
   } catch {
@@ -133,6 +147,12 @@ const appSource = await readFile(resolve(root, "app.js"), "utf8");
 if (/localStorage|data-contact-form|formEndpoint/.test(appSource)) {
   failures.push("app.js: prototype lead capture code remains");
 }
+
+const styleSource = await readFile(resolve(root, "styles.css"), "utf8");
+expect(styleSource, /--display: "Cinzel", Georgia, serif;/, "styles.css: Cinzel display role");
+expect(styleSource, /--reading: "Courier New", Courier, monospace;/, "styles.css: Courier New reading role");
+expect(styleSource, /--body: "Montserrat", Arial, sans-serif;/, "styles.css: Montserrat interface role");
+if (/font-family:\s*"Inter"|--body:\s*"Inter"/.test(styleSource)) failures.push("styles.css: Inter remains active");
 
 const generated = [
   { output: "index.html", route: "/" },

@@ -15,6 +15,8 @@ Fuente tecnica canonica de la landing publica de TRICOT.
 - Hub de recursos y primera guia original de Property Management publicados en
   castellano e ingles, con aprendizaje operativo anonimizado y sin presentarlo
   como caso de cliente.
+- Sistema tipografico local: Cinzel para jerarquia editorial, Courier New para
+  parrafos y Montserrat para entradillas e interfaz.
 - Captacion: desactivada de forma explicita; no se recoge ni guarda el email.
 - Indexacion: desactivada desde una politica central. Las paginas revisadas usan
   `noindex, follow`; Agentes IA conserva `noindex, nofollow`.
