@@ -16,7 +16,7 @@ export function renderNotFound() {
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <header class="site-header is-solid"><a class="brand" href="/" aria-label="TRICOT, inicio"><img src="/assets/brand/tricot-wordmark.png" alt="TRICOT" width="148" height="42" /></a><nav class="not-found-nav" aria-label="Idioma"><a href="/">ES</a><a href="/en/" lang="en" hreflang="en">EN</a></nav></header>
+    <header class="site-header is-solid"><a class="brand" href="/" aria-label="TRICOT, inicio"><img src="/assets/brand/tricot-wordmark-600.webp" srcset="/assets/brand/tricot-wordmark-600.webp 600w, /assets/brand/tricot-wordmark-900.webp 900w" sizes="140px" alt="TRICOT" width="140" height="42" /></a><nav class="not-found-nav" aria-label="Idioma"><a href="/">ES</a><a href="/en/" lang="en" hreflang="en">EN</a></nav></header>
     <main class="not-found-main" id="contenido">
       <p class="kicker">Error 404 · Página no encontrada</p>
       <h1>Esta página no está. El resto de la operación sigue en su sitio.</h1>

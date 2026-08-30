@@ -106,7 +106,7 @@ for (const page of t3Pages) {
   });
 }
 
-for (const file of ["styles.css", "app.js", "robots.txt", "sitemap.xml", "404.html", "assets/brand/favicon.svg", "assets/brand/tricot-wordmark.png", "assets/images/tricot-hero-property.jpg"]) {
+for (const file of ["styles.css", "app.js", "robots.txt", "sitemap.xml", "404.html", "assets/brand/favicon.svg", "assets/brand/tricot-wordmark.png", "assets/brand/tricot-wordmark-600.webp", "assets/brand/tricot-wordmark-900.webp", "assets/fonts/cinzel-latin.woff2", "assets/fonts/inter-latin.woff2", "assets/images/tricot-hero-property.jpg", "assets/images/tricot-hero-property-540.webp", "assets/images/tricot-hero-property-720.webp", "assets/images/tricot-hero-property-1080.webp"]) {
   try {
     await access(resolve(root, file));
   } catch {
