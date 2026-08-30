@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="{{LANG}}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fafaf9" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="{{DESCRIPTION}}" />
+    <title>{{TITLE}}</title>
+    <link rel="canonical" href="{{CANONICAL}}" />
+    <link rel="alternate" hreflang="es" href="{{HREFLANG_ES}}" />
+    <link rel="alternate" hreflang="en" href="{{HREFLANG_EN}}" />
+    <link rel="alternate" hreflang="x-default" href="{{HREFLANG_X_DEFAULT}}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="TRICOT" />
+    <meta property="og:locale" content="{{OG_LOCALE}}" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:url" content="{{CANONICAL}}" />
+    <meta property="og:image" content="https://tricotconsulting.com/assets/images/tricot-hero-property.jpg" />
+    <meta property="og:image:alt" content="{{OG_IMAGE_ALT}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{TITLE}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION}}" />
+    <meta name="twitter:image" content="https://tricotconsulting.com/assets/images/tricot-hero-property.jpg" />
+    <link rel="icon" href="{{ASSET_PREFIX}}assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ASSET_PREFIX}}styles.css" />
+    <script type="application/ld+json">{{JSON_LD}}</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">{{SKIP_LINK}}</a>
+    <header class="site-header" data-header>
+      <a class="brand" href="{{HOME_URL}}" aria-label="{{BRAND_LABEL}}"><img src="{{ASSET_PREFIX}}assets/brand/tricot-wordmark.png" alt="TRICOT" width="148" height="42" /></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle><span>{{MENU_LABEL}}</span><span aria-hidden="true">↗</span></button>
+      <nav class="site-nav" id="site-nav" aria-label="{{NAV_LABEL}}" data-nav>
+        <a href="{{NAV_OPERATION_URL}}">{{NAV_OPERATION}}</a>
+        <a href="{{NAV_SOLUTIONS_URL}}">{{NAV_SOLUTIONS}}</a>
+        <a href="{{NAV_METHOD_URL}}">{{NAV_METHOD}}</a>
+        <a class="language-link" href="{{LANGUAGE_URL}}" lang="{{OTHER_LANG}}" hreflang="{{OTHER_LANG}}">{{LANGUAGE_LABEL}}</a>
+      </nav>
+      <a class="header-cta" href="{{HEADER_CTA_URL}}">{{HEADER_CTA}}</a>
+    </header>
+{{BODY}}
+    <footer class="site-footer">
+      <img src="{{ASSET_PREFIX}}assets/brand/tricot-wordmark.png" alt="TRICOT" width="300" height="90" />
+      <div><p>{{FOOTER_DESCRIPTOR}}</p><p>© <span data-year></span> TRICOT</p></div>
+      <a href="#inicio">{{BACK_TO_TOP}}</a>
+    </footer>
+    <script src="{{ASSET_PREFIX}}app.js" defer></script>
+  </body>
+</html>
