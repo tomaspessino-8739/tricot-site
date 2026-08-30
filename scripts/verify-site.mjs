@@ -82,7 +82,7 @@ await verifyPage("index.html", {
   canonical: "https://tricotconsulting.com/",
   hreflangEs: "https://tricotconsulting.com/",
   hreflangEn: "https://tricotconsulting.com/en/",
-  h1: "Tu negocio funciona. La mala noticia es que alguien tiene que estar pendiente de todo."
+  h1: "Haz que tu negocio crezca sin que todo tenga que pasar por ti."
 });
 
 await verifyPage("en/index.html", {
@@ -90,7 +90,7 @@ await verifyPage("en/index.html", {
   canonical: "https://tricotconsulting.com/en/",
   hreflangEs: "https://tricotconsulting.com/",
   hreflangEn: "https://tricotconsulting.com/en/",
-  h1: "Your business works. The bad news is that someone has to keep track of everything."
+  h1: "Help your business grow without having everything run through you."
 });
 
 for (const page of servicePages) {
