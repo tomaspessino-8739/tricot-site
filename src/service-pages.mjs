@@ -2,14 +2,16 @@ const esRelated = {
   property: { label: "Automatización para Property Management", url: "/automatizacion-property-management/" },
   consulting: { label: "Consultoría de automatización", url: "/consultoria-automatizacion/" },
   software: { label: "Software a medida", url: "/software-a-medida/" },
-  method: { label: "Método TRICOT", url: "/metodo/" }
+  method: { label: "Método TRICOT", url: "/metodo/" },
+  resource: { label: "Guía: conectar reservas y operación", url: "/recursos/conectar-reservas-operacion-reporting/" }
 };
 
 const enRelated = {
   property: { label: "Property management automation", url: "/en/property-management-automation/" },
   consulting: { label: "Automation consulting", url: "/en/automation-consulting/" },
   software: { label: "Custom software", url: "/en/custom-software/" },
-  method: { label: "TRICOT method", url: "/en/method/" }
+  method: { label: "TRICOT method", url: "/en/method/" },
+  resource: { label: "Guide: connect bookings and operations", url: "/en/resources/connect-reservations-operations-reporting/" }
 };
 
 export const servicePages = [
@@ -86,7 +88,7 @@ export const servicePages = [
       { question: "¿Gestionáis directamente los inmuebles?", answer: "No. TRICOT trabaja sobre consultoría, sistemas, automatización e implantación, no sobre la operación física del inmueble." },
       { question: "¿Cómo empezamos?", answer: "Con un formulario revisado y, si existe encaje, una primera consulta sin coste." }
     ],
-    related: [esRelated.consulting, esRelated.software, esRelated.method],
+    related: [esRelated.resource, esRelated.consulting, esRelated.method],
     contactKicker: "Primera consulta",
     contactTitle: "Revisemos el flujo que más fricción genera.",
     contactText: "Describe qué ocurre, a quién afecta y qué herramientas intervienen. La solicitud será revisada antes de facilitar agenda.",
@@ -160,7 +162,7 @@ export const servicePages = [
       { question: "Do you manage the properties directly?", answer: "No. TRICOT provides consulting, systems, automation and implementation, not physical property operations." },
       { question: "How do we begin?", answer: "With a reviewed form and, when there is a fit, a free initial consultation." }
     ],
-    related: [enRelated.consulting, enRelated.software, enRelated.method],
+    related: [enRelated.resource, enRelated.consulting, enRelated.method],
     contactKicker: "Initial consultation",
     contactTitle: "Let us review the workflow creating the most friction.",
     contactText: "Describe what happens, who it affects and which tools are involved. The request will be reviewed before a booking link is offered.",

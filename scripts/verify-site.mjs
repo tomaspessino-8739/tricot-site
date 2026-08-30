@@ -3,6 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { servicePages } from "../src/service-pages.mjs";
 import { t3Pages } from "../src/t3-pages.mjs";
+import { resourcePages } from "../src/resource-pages.mjs";
 import { indexablePaths, isIndexable, renderRobots, robotsDirective } from "../src/indexing-policy.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -106,6 +107,20 @@ for (const page of t3Pages) {
   });
 }
 
+for (const page of resourcePages) {
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  await verifyPage(page.output, {
+    lang: page.lang,
+    canonical: page.canonical,
+    hreflangEs: spanishUrl,
+    hreflangEn: englishUrl,
+    h1: page.h1,
+    requiredTypes: [page.kind === "hub" ? "CollectionPage" : "WebPage", "BreadcrumbList", ...(page.kind === "article" ? ["Article", "FAQPage"] : [])],
+    forbidService: true
+  });
+}
+
 for (const file of ["styles.css", "app.js", "robots.txt", "sitemap.xml", "404.html", "assets/brand/favicon.svg", "assets/brand/tricot-wordmark.png", "assets/brand/tricot-wordmark-600.webp", "assets/brand/tricot-wordmark-900.webp", "assets/fonts/cinzel-latin.woff2", "assets/fonts/inter-latin.woff2", "assets/images/tricot-hero-property.jpg", "assets/images/tricot-hero-property-540.webp", "assets/images/tricot-hero-property-720.webp", "assets/images/tricot-hero-property-1080.webp"]) {
   try {
     await access(resolve(root, file));
@@ -123,7 +138,8 @@ const generated = [
   { output: "index.html", route: "/" },
   { output: "en/index.html", route: "/en/" },
   ...servicePages.map((page) => ({ output: page.output, route: new URL(page.canonical).pathname })),
-  ...t3Pages.map((page) => ({ output: page.output, route: new URL(page.canonical).pathname }))
+  ...t3Pages.map((page) => ({ output: page.output, route: new URL(page.canonical).pathname })),
+  ...resourcePages.map((page) => ({ output: page.output, route: new URL(page.canonical).pathname }))
 ];
 const knownRoutes = new Set(generated.map((page) => page.route));
 const seenCanonicals = new Set();

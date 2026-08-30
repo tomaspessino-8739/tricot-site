@@ -6,12 +6,15 @@ Fuente tecnica canonica de la landing publica de TRICOT.
 
 - Sitio estatico.
 - Datos de las demostraciones: sinteticos.
-- Dieciseis paginas generadas en castellano e ingles desde un shell compartido.
+- Veinte paginas generadas en castellano e ingles desde un shell compartido.
 - Verticales locales: Property Management, consultoria de automatizacion,
   software a medida, metodo y Agentes IA.
 - Agentes IA permanece fuera de la navegacion comercial y sujeto a su gate de
   evidencia.
 - Entidad institucional y recorrido de primera consulta completados en local.
+- Hub de recursos y primera guia original de Property Management completados en
+  local, con aprendizaje operativo anonimizado y sin presentarlo como caso de
+  cliente.
 - Captacion: desactivada de forma explicita; no se recoge ni guarda el email.
 - Indexacion: desactivada desde una politica central. Las paginas revisadas usan
   `noindex, follow`; Agentes IA conserva `noindex, nofollow`.
@@ -38,7 +41,7 @@ npm run check
 python3 -m http.server 4173
 ```
 
-`npm run build` genera las dos portadas, siete parejas de paginas interiores,
+`npm run build` genera las dos portadas, nueve parejas de paginas interiores,
 `robots.txt`, `sitemap.xml` y `404.html`. `npm run verify` comprueba canonical,
 `hreflang`, H1, schema, unicidad, enlaces internos, politica de indexacion,
 sitemap, robots, el aislamiento de Agentes IA y que no reaparezca la captacion

@@ -6,6 +6,8 @@ import { renderServicePage } from "../src/service-page.mjs";
 import { servicePages } from "../src/service-pages.mjs";
 import { renderT3Page } from "../src/t3-page.mjs";
 import { t3Pages } from "../src/t3-pages.mjs";
+import { renderResourcePage } from "../src/resource-page.mjs";
+import { resourcePages } from "../src/resource-pages.mjs";
 import { renderRobots, renderSitemap, robotsDirective } from "../src/indexing-policy.mjs";
 import { renderNotFound } from "../src/not-found.mjs";
 
@@ -210,6 +212,86 @@ for (const page of t3Pages) {
   process.stdout.write(`generated ${page.output}\n`);
 }
 
+for (const page of resourcePages) {
+  const base = pages[page.lang];
+  const graph = entityGraph(page);
+  const webpage = graph["@graph"].find((node) => node["@type"] === "WebPage");
+  if (page.kind === "hub") webpage["@type"] = "CollectionPage";
+  if (page.kind === "article") {
+    webpage.mainEntity = { "@id": `${page.canonical}#article` };
+    graph["@graph"].push({
+      "@type": "Article",
+      "@id": `${page.canonical}#article`,
+      url: page.canonical,
+      headline: page.h1,
+      description: page.description,
+      inLanguage: page.lang,
+      datePublished: "2026-08-30",
+      dateModified: "2026-08-30",
+      author: { "@id": "https://tricotconsulting.com/#organization" },
+      publisher: { "@id": "https://tricotconsulting.com/#organization" },
+      mainEntityOfPage: { "@id": `${page.canonical}#webpage` }
+    });
+  }
+  const breadcrumbItems = [
+    { "@type": "ListItem", position: 1, name: page.lang === "es" ? "Inicio" : "Home", item: base.canonical },
+    ...(page.kind === "article" ? [{ "@type": "ListItem", position: 2, name: page.lang === "es" ? "Recursos" : "Resources", item: `https://tricotconsulting.com${page.hubUrl}` }] : []),
+    { "@type": "ListItem", position: page.kind === "article" ? 3 : 2, name: page.breadcrumb, item: page.canonical }
+  ];
+  graph["@graph"].push({ "@type": "BreadcrumbList", "@id": `${page.canonical}#breadcrumb`, itemListElement: breadcrumbItems });
+  if (page.kind === "article") {
+    graph["@graph"].push({
+      "@type": "FAQPage",
+      "@id": `${page.canonical}#faq`,
+      mainEntity: page.faqs.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer }
+      }))
+    });
+  }
+  const jsonLd = JSON.stringify(graph).replaceAll("</script", "<\\/script");
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const html = render(layout, {
+    LANG: page.lang,
+    ROBOTS: robotsDirective(page.canonical),
+    DESCRIPTION: escapeAttribute(page.description),
+    TITLE: escapeAttribute(page.title),
+    CANONICAL: escapeAttribute(page.canonical),
+    HREFLANG_ES: spanishUrl,
+    HREFLANG_EN: englishUrl,
+    HREFLANG_X_DEFAULT: spanishUrl,
+    OG_LOCALE: base.ogLocale,
+    OG_IMAGE_ALT: escapeAttribute(base.ogImageAlt),
+    ASSET_PREFIX: page.assetPrefix,
+    JSON_LD: jsonLd,
+    SKIP_LINK: base.skipLink,
+    BRAND_LABEL: escapeAttribute(base.brandLabel),
+    HOME_URL: base.homeUrl,
+    MENU_LABEL: base.menuLabel,
+    NAV_LABEL: escapeAttribute(base.navLabel),
+    NAV_OPERATION: "Property Management",
+    NAV_SOLUTIONS: base.lang === "es" ? "Consultoría" : "Consulting",
+    NAV_METHOD: base.lang === "es" ? "Recursos" : "Resources",
+    NAV_OPERATION_URL: base.navOperationUrl,
+    NAV_SOLUTIONS_URL: base.navSolutionsUrl,
+    NAV_METHOD_URL: page.lang === "es" ? "/recursos/" : "/en/resources/",
+    LANGUAGE_URL: page.languageUrl,
+    OTHER_LANG: base.otherLang,
+    LANGUAGE_LABEL: base.languageLabel,
+    HEADER_CTA: base.headerCta,
+    HEADER_CTA_URL: base.headerCtaUrl,
+    BODY: renderResourcePage(page),
+    FOOTER_DESCRIPTOR: base.footerDescriptor,
+    BACK_TO_TOP: base.backToTop
+  });
+  const output = resolve(projectRoot, page.output);
+  await mkdir(dirname(output), { recursive: true });
+  await writeFile(output, html, "utf8");
+  process.stdout.write(`generated ${page.output}\n`);
+}
+
 const sitemapRecords = [
   {
     canonical: pages.es.canonical,
@@ -227,6 +309,11 @@ const sitemapRecords = [
     hreflangEn: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`
   })),
   ...t3Pages.map((page) => ({
+    canonical: page.canonical,
+    hreflangEs: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
+    hreflangEn: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`
+  })),
+  ...resourcePages.map((page) => ({
     canonical: page.canonical,
     hreflangEs: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
     hreflangEn: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`
