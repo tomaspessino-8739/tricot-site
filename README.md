@@ -17,8 +17,8 @@ Fuente tecnica canonica de la landing publica de TRICOT.
   `noindex, follow`; Agentes IA conserva `noindex, nofollow`.
 - Descubrimiento local: `robots.txt`, sitemap derivado de rutas autorizadas y
   pagina 404 bilingue.
-- Estado publico: T0-T2 estan publicados; T3-T4 requieren una nueva
-  autorizacion de deploy.
+- Estado publico: T0-T4 estan publicados. La indexacion y la captacion siguen
+  bloqueadas por sus gates separados.
 
 ## Publicacion
 
