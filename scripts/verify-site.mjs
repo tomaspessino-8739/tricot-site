@@ -2,6 +2,8 @@ import { access, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { servicePages } from "../src/service-pages.mjs";
+import { t3Pages } from "../src/t3-pages.mjs";
+import { indexablePaths, isIndexable, renderRobots, robotsDirective } from "../src/indexing-policy.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -26,7 +28,7 @@ function escapeHtml(value) {
 async function verifyPage(relativePath, contract) {
   const source = await readFile(resolve(root, relativePath), "utf8");
   expect(source, new RegExp(`<html lang="${contract.lang}">`), `${relativePath}: lang`);
-  expect(source, /<meta name="robots" content="noindex, nofollow" \/>/, `${relativePath}: noindex gate`);
+  expect(source, new RegExp(`<meta name="robots" content="${escapeRegex(robotsDirective(contract.canonical))}" \\/>`), `${relativePath}: robots directive`);
   expect(source, new RegExp(`<link rel="canonical" href="${escapeRegex(contract.canonical)}" \\/>`), `${relativePath}: canonical`);
   expect(source, new RegExp(`hreflang="es" href="${escapeRegex(contract.hreflangEs)}"`), `${relativePath}: hreflang es`);
   expect(source, new RegExp(`hreflang="en" href="${escapeRegex(contract.hreflangEn)}"`), `${relativePath}: hreflang en`);
@@ -43,7 +45,7 @@ async function verifyPage(relativePath, contract) {
     try {
       const graph = JSON.parse(jsonLdMatch[1]);
       const types = graph["@graph"]?.map((node) => node["@type"]) || [];
-      for (const requiredType of ["WebSite", "Organization", "WebPage", ...(contract.requiredTypes || [])]) {
+      for (const requiredType of ["WebSite", "Organization", ...(contract.requiredTypes || ["WebPage"])]) {
         if (!types.includes(requiredType)) failures.push(`${relativePath}: missing JSON-LD ${requiredType}`);
       }
       if (contract.forbidService && types.includes("Service")) failures.push(`${relativePath}: Service schema is not allowed`);
@@ -90,7 +92,21 @@ for (const page of servicePages) {
   });
 }
 
-for (const file of ["styles.css", "app.js", "assets/brand/favicon.svg", "assets/brand/tricot-wordmark.png", "assets/images/tricot-hero-property.jpg"]) {
+for (const page of t3Pages) {
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  await verifyPage(page.output, {
+    lang: page.lang,
+    canonical: page.canonical,
+    hreflangEs: spanishUrl,
+    hreflangEn: englishUrl,
+    h1: page.h1,
+    requiredTypes: [page.kind === "institutional" ? "AboutPage" : "WebPage", "BreadcrumbList", "FAQPage"],
+    forbidService: true
+  });
+}
+
+for (const file of ["styles.css", "app.js", "robots.txt", "sitemap.xml", "404.html", "assets/brand/favicon.svg", "assets/brand/tricot-wordmark.png", "assets/images/tricot-hero-property.jpg"]) {
   try {
     await access(resolve(root, file));
   } catch {
@@ -106,7 +122,8 @@ if (/localStorage|data-contact-form|formEndpoint/.test(appSource)) {
 const generated = [
   { output: "index.html", route: "/" },
   { output: "en/index.html", route: "/en/" },
-  ...servicePages.map((page) => ({ output: page.output, route: new URL(page.canonical).pathname }))
+  ...servicePages.map((page) => ({ output: page.output, route: new URL(page.canonical).pathname })),
+  ...t3Pages.map((page) => ({ output: page.output, route: new URL(page.canonical).pathname }))
 ];
 const knownRoutes = new Set(generated.map((page) => page.route));
 const seenCanonicals = new Set();
@@ -126,10 +143,46 @@ for (const page of generated) {
   }
 }
 
+const robotsSource = await readFile(resolve(root, "robots.txt"), "utf8");
+if (robotsSource !== renderRobots()) failures.push("robots.txt: differs from central crawler policy");
+expect(robotsSource, /^User-agent: \*$/m, "robots.txt: missing wildcard user-agent");
+expect(robotsSource, /^Allow: \/$/m, "robots.txt: public crawl is not allowed");
+expect(robotsSource, /^Sitemap: https:\/\/tricotconsulting\.com\/sitemap\.xml$/m, "robots.txt: missing absolute sitemap URL");
+if (/^Disallow:/m.test(robotsSource)) failures.push("robots.txt: page-level noindex must remain crawlable");
+
+const sitemapSource = await readFile(resolve(root, "sitemap.xml"), "utf8");
+expect(sitemapSource, /^<\?xml version="1\.0" encoding="UTF-8"\?>/, "sitemap.xml: XML declaration");
+expect(sitemapSource, /<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/, "sitemap.xml: urlset namespace");
+expect(sitemapSource, /<\/urlset>\s*$/, "sitemap.xml: closing urlset");
+const sitemapUrls = [...sitemapSource.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+if (new Set(sitemapUrls).size !== sitemapUrls.length) failures.push("sitemap.xml: duplicate URLs");
+for (const url of sitemapUrls) {
+  if (!generated.some((page) => `https://tricotconsulting.com${page.route}` === url)) failures.push(`sitemap.xml: unknown URL ${url}`);
+  if (!isIndexable(url)) failures.push(`sitemap.xml: non-indexable URL ${url}`);
+}
+for (const route of indexablePaths) {
+  const canonical = `https://tricotconsulting.com${route}`;
+  if (!sitemapUrls.includes(canonical)) failures.push(`sitemap.xml: missing authorised URL ${canonical}`);
+}
+
+const notFoundSource = await readFile(resolve(root, "404.html"), "utf8");
+expect(notFoundSource, /<meta name="robots" content="noindex, nofollow" \/>/, "404.html: noindex gate");
+expect(notFoundSource, /<h1>Esta página no está\./, "404.html: useful H1");
+expect(notFoundSource, /href="\/en\/"/, "404.html: English recovery link");
+if (/<link rel="canonical"/.test(notFoundSource)) failures.push("404.html: canonical must not point to an error page");
+if (/<form|<input|<textarea|localStorage/.test(notFoundSource)) failures.push("404.html: unexpected data capture");
+
 for (const page of generated.filter(({ route }) => !route.includes("agentes-ia-empresas") && !route.includes("ai-agents-for-business"))) {
   const source = await readFile(resolve(root, page.output), "utf8");
   if (/href="\/(?:en\/)?(?:agentes-ia-empresas|ai-agents-for-business)\//.test(source)) {
     failures.push(`${page.output}: links to evidence-gated agent route`);
+  }
+}
+
+for (const page of generated.filter(({ route }) => route.includes("agentes-ia-empresas") || route.includes("ai-agents-for-business"))) {
+  const source = await readFile(resolve(root, page.output), "utf8");
+  if (/href="\/(?:en\/initial-consultation|diagnostico-operativo)\//.test(source)) {
+    failures.push(`${page.output}: evidence-gated route links to consultation funnel`);
   }
 }
 

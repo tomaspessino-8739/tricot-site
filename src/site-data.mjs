@@ -23,7 +23,7 @@ export const pages = {
     navSolutionsUrl: "/consultoria-automatizacion/",
     navMethodUrl: "/metodo/",
     headerCta: "Primera consulta",
-    headerCtaUrl: "#contacto",
+    headerCtaUrl: "/diagnostico-operativo/",
     footerDescriptor: "Software · Automatización · IA · Implantación",
     backToTop: "Volver arriba ↑"
   },
@@ -51,7 +51,7 @@ export const pages = {
     navSolutionsUrl: "/en/automation-consulting/",
     navMethodUrl: "/en/method/",
     headerCta: "Initial consultation",
-    headerCtaUrl: "#contacto",
+    headerCtaUrl: "/en/initial-consultation/",
     footerDescriptor: "Software · Automation · AI · Implementation",
     backToTop: "Back to top ↑"
   }

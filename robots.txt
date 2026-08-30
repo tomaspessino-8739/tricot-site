@@ -1,0 +1,6 @@
+# Public crawling is allowed so page-level indexing directives can be read.
+# Search, user-initiated retrieval and approved AI crawlers inherit this policy.
+User-agent: *
+Allow: /
+
+Sitemap: https://tricotconsulting.com/sitemap.xml

@@ -4,6 +4,10 @@ import { fileURLToPath } from "node:url";
 import { entityGraph, pages } from "../src/site-data.mjs";
 import { renderServicePage } from "../src/service-page.mjs";
 import { servicePages } from "../src/service-pages.mjs";
+import { renderT3Page } from "../src/t3-page.mjs";
+import { t3Pages } from "../src/t3-pages.mjs";
+import { renderRobots, renderSitemap, robotsDirective } from "../src/indexing-policy.mjs";
+import { renderNotFound } from "../src/not-found.mjs";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const layout = await readFile(resolve(projectRoot, "src/layout.html"), "utf8");
@@ -31,6 +35,7 @@ for (const [locale, page] of Object.entries(pages)) {
   const jsonLd = JSON.stringify(entityGraph(page)).replaceAll("</script", "<\\/script");
   const html = render(layout, {
     LANG: page.lang,
+    ROBOTS: robotsDirective(page.canonical),
     DESCRIPTION: escapeAttribute(page.description),
     TITLE: escapeAttribute(page.title),
     CANONICAL: escapeAttribute(page.canonical),
@@ -102,6 +107,7 @@ for (const page of servicePages) {
   const jsonLd = JSON.stringify(graph).replaceAll("</script", "<\\/script");
   const html = render(layout, {
     LANG: page.lang,
+    ROBOTS: robotsDirective(page.canonical),
     DESCRIPTION: escapeAttribute(page.description),
     TITLE: escapeAttribute(page.title),
     CANONICAL: escapeAttribute(page.canonical),
@@ -127,7 +133,7 @@ for (const page of servicePages) {
     OTHER_LANG: base.otherLang,
     LANGUAGE_LABEL: base.languageLabel,
     HEADER_CTA: base.headerCta,
-    HEADER_CTA_URL: "#contacto",
+    HEADER_CTA_URL: page.evidenceNotice ? "#contacto" : base.headerCtaUrl,
     BODY: renderServicePage(page),
     FOOTER_DESCRIPTOR: base.footerDescriptor,
     BACK_TO_TOP: base.backToTop
@@ -138,3 +144,98 @@ for (const page of servicePages) {
   await writeFile(output, html, "utf8");
   process.stdout.write(`generated ${page.output}\n`);
 }
+
+for (const page of t3Pages) {
+  const base = pages[page.lang];
+  const graph = entityGraph(page);
+  if (page.kind === "institutional") {
+    graph["@graph"].find((node) => node["@type"] === "WebPage")["@type"] = "AboutPage";
+  }
+  graph["@graph"].push({
+    "@type": "BreadcrumbList",
+    "@id": `${page.canonical}#breadcrumb`,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: page.lang === "es" ? "Inicio" : "Home", item: base.canonical },
+      { "@type": "ListItem", position: 2, name: page.breadcrumb, item: page.canonical }
+    ]
+  });
+  graph["@graph"].push({
+    "@type": "FAQPage",
+    "@id": `${page.canonical}#faq`,
+    mainEntity: page.faqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer }
+    }))
+  });
+  const jsonLd = JSON.stringify(graph).replaceAll("</script", "<\\/script");
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const html = render(layout, {
+    LANG: page.lang,
+    ROBOTS: robotsDirective(page.canonical),
+    DESCRIPTION: escapeAttribute(page.description),
+    TITLE: escapeAttribute(page.title),
+    CANONICAL: escapeAttribute(page.canonical),
+    HREFLANG_ES: spanishUrl,
+    HREFLANG_EN: englishUrl,
+    HREFLANG_X_DEFAULT: spanishUrl,
+    OG_LOCALE: base.ogLocale,
+    OG_IMAGE_ALT: escapeAttribute(base.ogImageAlt),
+    ASSET_PREFIX: page.assetPrefix,
+    JSON_LD: jsonLd,
+    SKIP_LINK: base.skipLink,
+    BRAND_LABEL: escapeAttribute(base.brandLabel),
+    HOME_URL: base.homeUrl,
+    MENU_LABEL: base.menuLabel,
+    NAV_LABEL: escapeAttribute(base.navLabel),
+    NAV_OPERATION: "Property Management",
+    NAV_SOLUTIONS: base.lang === "es" ? "Consultoría" : "Consulting",
+    NAV_METHOD: base.navMethod,
+    NAV_OPERATION_URL: base.navOperationUrl,
+    NAV_SOLUTIONS_URL: base.navSolutionsUrl,
+    NAV_METHOD_URL: base.navMethodUrl,
+    LANGUAGE_URL: page.languageUrl,
+    OTHER_LANG: base.otherLang,
+    LANGUAGE_LABEL: base.languageLabel,
+    HEADER_CTA: base.headerCta,
+    HEADER_CTA_URL: page.kind === "consultation" ? "#contacto" : base.headerCtaUrl,
+    BODY: renderT3Page(page),
+    FOOTER_DESCRIPTOR: base.footerDescriptor,
+    BACK_TO_TOP: base.backToTop
+  });
+  const output = resolve(projectRoot, page.output);
+  await mkdir(dirname(output), { recursive: true });
+  await writeFile(output, html, "utf8");
+  process.stdout.write(`generated ${page.output}\n`);
+}
+
+const sitemapRecords = [
+  {
+    canonical: pages.es.canonical,
+    hreflangEs: pages.es.canonical,
+    hreflangEn: pages.en.canonical
+  },
+  {
+    canonical: pages.en.canonical,
+    hreflangEs: pages.es.canonical,
+    hreflangEn: pages.en.canonical
+  },
+  ...servicePages.map((page) => ({
+    canonical: page.canonical,
+    hreflangEs: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
+    hreflangEn: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`
+  })),
+  ...t3Pages.map((page) => ({
+    canonical: page.canonical,
+    hreflangEs: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
+    hreflangEn: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`
+  }))
+];
+
+await writeFile(resolve(projectRoot, "robots.txt"), renderRobots(), "utf8");
+process.stdout.write("generated robots.txt\n");
+await writeFile(resolve(projectRoot, "sitemap.xml"), renderSitemap(sitemapRecords), "utf8");
+process.stdout.write("generated sitemap.xml\n");
+await writeFile(resolve(projectRoot, "404.html"), renderNotFound(), "utf8");
+process.stdout.write("generated 404.html\n");

@@ -6,14 +6,19 @@ Fuente tecnica canonica de la landing publica de TRICOT.
 
 - Sitio estatico.
 - Datos de las demostraciones: sinteticos.
-- Doce paginas generadas en castellano e ingles desde un shell compartido.
+- Dieciseis paginas generadas en castellano e ingles desde un shell compartido.
 - Verticales locales: Property Management, consultoria de automatizacion,
   software a medida, metodo y Agentes IA.
 - Agentes IA permanece fuera de la navegacion comercial y sujeto a su gate de
   evidencia.
+- Entidad institucional y recorrido de primera consulta completados en local.
 - Captacion: desactivada de forma explicita; no se recoge ni guarda el email.
-- Indexacion: desactivada hasta completar paginas, privacidad, identidad y QA.
-- Estado publico: el dominio no cambia hasta que exista autorizacion separada.
+- Indexacion: desactivada desde una politica central. Las paginas revisadas usan
+  `noindex, follow`; Agentes IA conserva `noindex, nofollow`.
+- Descubrimiento local: `robots.txt`, sitemap derivado de rutas autorizadas y
+  pagina 404 bilingue.
+- Estado publico: T0-T2 estan publicados; T3-T4 requieren una nueva
+  autorizacion de deploy.
 
 ## Publicacion
 
@@ -31,9 +36,14 @@ npm run check
 python3 -m http.server 4173
 ```
 
-`npm run build` genera las dos portadas y las cinco parejas de paginas
-interiores. `npm run verify` comprueba canonical, `hreflang`, H1, schema,
-unicidad, enlaces internos, el aislamiento de Agentes IA y que no reaparezca la
-captacion de prototipo.
+`npm run build` genera las dos portadas, siete parejas de paginas interiores,
+`robots.txt`, `sitemap.xml` y `404.html`. `npm run verify` comprueba canonical,
+`hreflang`, H1, schema, unicidad, enlaces internos, politica de indexacion,
+sitemap, robots, el aislamiento de Agentes IA y que no reaparezca la captacion
+de prototipo.
+
+La lista `indexablePaths` de `src/indexing-policy.mjs` esta vacia. Por eso el
+sitemap no anuncia ninguna URL hasta que la indexacion se autorice por parejas
+ES/EN.
 
 El checkpoint anterior a T0/T1 esta documentado en `docs/BASELINE.md`.

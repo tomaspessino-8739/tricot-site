@@ -12,15 +12,19 @@ function renderItems(items, renderItem) {
 }
 
 export function renderServicePage(page) {
+  const gated = Boolean(page.evidenceNotice);
+  const consultationUrl = gated ? "#contacto" : (page.lang === "es" ? "/diagnostico-operativo/" : "/en/initial-consultation/");
+  const gatedTitle = page.lang === "es" ? "Esta capacidad todavía no está abierta a solicitudes." : "This capability is not open to requests yet.";
+  const gatedButton = page.lang === "es" ? "Solicitud no disponible" : "Requests not available";
   const labels = page.lang === "es"
     ? {
         breadcrumbHome: "Inicio",
         synthetic: "Ejemplo conceptual",
         related: "Explorar páginas relacionadas",
         readiness: "Canal en preparación",
-        unavailable: "La captación todavía no está activa.",
-        unavailableBody: "No recogemos datos ni simulamos una solicitud. El formulario se activará cuando estén listos el canal profesional, la privacidad y el endpoint seguro.",
-        unavailableButton: "Solicitud aún no disponible",
+        unavailable: "Primero revisamos el contexto.",
+        unavailableBody: "Consulta qué información pediremos, qué incluye la conversación y qué puede ocurrir después. El envío todavía no recoge datos.",
+        unavailableButton: "Ver cómo funciona",
         noindex: "Esta página permanece fuera del índice durante implementación y revisión."
       }
     : {
@@ -28,9 +32,9 @@ export function renderServicePage(page) {
         synthetic: "Conceptual example",
         related: "Explore related pages",
         readiness: "Channel in preparation",
-        unavailable: "Lead capture is not active yet.",
-        unavailableBody: "We do not collect data or simulate a request. The form will be activated when the professional contact channel, privacy information and secure endpoint are ready.",
-        unavailableButton: "Requests not available yet",
+        unavailable: "We review the context first.",
+        unavailableBody: "See what information we will request, what the conversation includes and what may happen next. Submission does not collect data yet.",
+        unavailableButton: "See how it works",
         noindex: "This page remains outside the index during implementation and review."
       };
 
@@ -47,7 +51,7 @@ export function renderServicePage(page) {
             <p class="kicker">${escapeHtml(page.kicker)}</p>
             <h1 id="hero-title">${escapeHtml(page.h1)}</h1>
             <p class="hero-lede">${escapeHtml(page.subtitle)}</p>
-            <div class="hero-actions"><a class="button button-primary" href="#contacto">${escapeHtml(page.primaryCta)} <span aria-hidden="true">↗</span></a><a class="text-link" href="#respuesta">${escapeHtml(page.secondaryCta)} <span aria-hidden="true">↓</span></a></div>
+            <div class="hero-actions"><a class="button button-primary" href="${consultationUrl}">${escapeHtml(page.primaryCta)} <span aria-hidden="true">↗</span></a><a class="text-link" href="#respuesta">${escapeHtml(page.secondaryCta)} <span aria-hidden="true">↓</span></a></div>
           </div>
           <div class="service-hero-panel reveal" data-delay="1" role="group" aria-label="${escapeHtml(page.heroPanelLabel)}">
             ${renderItems(page.heroFacts, (fact, index) => `<div><span>0${index + 1}</span><strong>${escapeHtml(fact.title)}</strong><p>${escapeHtml(fact.text)}</p></div>`)}
@@ -94,7 +98,7 @@ export function renderServicePage(page) {
 
       <section class="contact-section" id="contacto" aria-labelledby="contact-title">
         <div class="contact-intro reveal"><p class="kicker kicker-inverse">${escapeHtml(page.contactKicker)}</p><h2 id="contact-title">${escapeHtml(page.contactTitle)}</h2><p>${escapeHtml(page.contactText)}</p></div>
-        <div class="contact-form readiness-panel reveal" data-delay="1" role="status"><p class="readiness-label">${escapeHtml(labels.readiness)}</p><h3>${escapeHtml(labels.unavailable)}</h3><p>${escapeHtml(labels.unavailableBody)}</p><span class="contact-submit is-disabled" aria-disabled="true">${escapeHtml(labels.unavailableButton)}</span><p class="privacy-note">${escapeHtml(labels.noindex)}</p></div>
+        ${gated ? `<div class="contact-form readiness-panel reveal" data-delay="1" role="status"><p class="readiness-label">${escapeHtml(page.evidenceNoticeLabel)}</p><h3>${escapeHtml(gatedTitle)}</h3><p>${escapeHtml(page.evidenceNotice)}</p><span class="contact-submit is-disabled" aria-disabled="true">${escapeHtml(gatedButton)}</span><p class="privacy-note">${escapeHtml(labels.noindex)}</p></div>` : `<div class="contact-form readiness-panel reveal" data-delay="1"><p class="readiness-label">${escapeHtml(labels.readiness)}</p><h3>${escapeHtml(labels.unavailable)}</h3><p>${escapeHtml(labels.unavailableBody)}</p><a class="contact-submit" href="${consultationUrl}">${escapeHtml(labels.unavailableButton)} <span aria-hidden="true">↗</span></a><p class="privacy-note">${escapeHtml(labels.noindex)}</p></div>`}
       </section>
     </main>`;
 }
