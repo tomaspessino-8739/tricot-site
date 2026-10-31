@@ -24,7 +24,8 @@ se han retirado del recorrido comercial por decision del propietario.
   Son redirecciones estaticas con canonical, meta refresh y enlace de respaldo,
   no respuestas HTTP 301. JavaScript conserva los parametros de consulta.
 - Sin fotos, videos, capturas, demos, huecos de imagen ni imagen social heredada.
-  TRICOT se presenta como texto; los activos anteriores siguen recuperables.
+  El logotipo original aprobado se conserva en cabecera y pie, sin sustituirlo
+  por texto. La restriccion de imagenes se aplica al contenido, no a la marca.
 - Tipografia local existente: Cinzel, Courier New y Montserrat.
 - Contacto provisional confirmado por el propietario: `info@tricot.com`.
   Buzon aun no creado: se muestra en preparacion, sin `mailto:`, formulario,
@@ -45,7 +46,8 @@ python3 -m http.server 4181 --bind 127.0.0.1
 `src/site-data.mjs` define metadatos, contacto y rutas anteriores.
 `scripts/build.mjs` genera HTML, rutas anteriores, robots, sitemap y 404.
 `scripts/verify-site.mjs` verifica enlaces, idiomas, metadatos, datos
-estructurados, extension del contenido, ausencia de imagenes y estado del contacto.
+estructurados, extension del contenido, logotipo original, ausencia de imagenes
+de contenido y estado del contacto.
 
 La migracion de dominio permanece documentada en `docs/DOMAIN_MIGRATION.md`.
 La revision actual y el rollback se documentan en `docs/CONTENT_SIMPLIFICATION.md`.

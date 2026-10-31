@@ -62,3 +62,12 @@ Verificacion local ejecutada:
 Rollback: revertir el commit de esta revision sobre `main` y esperar su nuevo
 build de Pages. No cambiar dominio, DNS, proyecto de redireccion legado,
 politica de indexacion ni infraestructura de correo durante este rollback.
+
+## Restauracion del logotipo
+
+El propietario aclara que debe conservarse el logotipo original aprobado.
+Se restaura el activo `tricot-wordmark-600.webp` y su variante responsiva en
+cabecera y pie de ambos idiomas, ademas de la pagina 404. Los archivos de
+imagen son los mismos de la version anterior a la simplificacion, sin edicion.
+La restriccion de fotografias y demos se limita al contenido. La comprobacion
+automatica distingue estas imagenes de marca y exige el logotipo original.

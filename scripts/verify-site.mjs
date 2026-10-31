@@ -30,7 +30,10 @@ for (const page of Object.values(pages)) {
   for (const match of html.matchAll(/(?:href="#|aria-labelledby="|aria-controls=")([^"]+)"/g)) {
     for (const id of match[1].split(" ")) assert(ids.includes(id), prefix + "target " + id);
   }
-  assert(!/<img\b|<picture\b|<video\b|<svg\b/.test(html), prefix + "no visual media");
+  const images = [...html.matchAll(/<img\b[^>]*>/g)].map((match) => match[0]);
+  assert.equal(images.length, 2, prefix + "original logo in header and footer");
+  assert(images.every((image) => image.includes('src="/assets/brand/tricot-wordmark-600.webp"') && image.includes('alt="TRICOT"')), prefix + "approved logo assets only");
+  assert(!/<img\b|<picture\b|<video\b|<svg\b/.test(html.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1]), prefix + "no content imagery");
   assert(!/og:image|twitter:image/.test(html), prefix + "no inherited social image");
   assert(!/{{[A-Z_]+}}/.test(html), prefix + "rendered template");
   assert(!/<form\b|<input\b|<textarea\b|data-contact-form|localStorage/.test(html), prefix + "no inactive capture form");
@@ -69,7 +72,8 @@ for (const url of sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)) {
 assert.equal(indexablePaths.size, 0, "indexing remains subject to a separate decision");
 const notFound = await read("404.html");
 assert(notFound.includes('href="/en/"') && notFound.includes('href="/"'), "404 recovery");
-assert(!/<img\b|<form\b/.test(notFound), "404 has no imagery or collection");
+assert(notFound.includes('src="/assets/brand/tricot-wordmark-600.webp"'), "404 uses the original logo");
+assert(!/<form\b/.test(notFound), "404 has no collection");
 const app = await read("app.js");
 assert(!/localStorage|formEndpoint/.test(app), "no prototype capture");
 const styles = await read("styles.css");

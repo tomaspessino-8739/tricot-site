@@ -10,7 +10,7 @@ export function renderNotFound() {
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <header class="site-header"><a class="brand" href="/">TRICOT</a></header>
+    <header class="site-header"><a class="brand" href="/" aria-label="TRICOT, inicio"><img src="/assets/brand/tricot-wordmark-600.webp" alt="TRICOT" width="140" height="42" /></a></header>
     <main class="not-found-main">
       <p class="kicker">404</p>
       <h1>Esta página no está.</h1>
