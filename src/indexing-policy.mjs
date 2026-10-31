@@ -26,7 +26,7 @@ export function renderRobots() {
 User-agent: *
 Allow: /
 
-Sitemap: https://tricotconsulting.com/sitemap.xml
+Sitemap: https://untricot.com/sitemap.xml
 `;
 }
 

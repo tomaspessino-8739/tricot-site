@@ -79,23 +79,23 @@ async function verifyPage(relativePath, contract) {
 
 await verifyPage("index.html", {
   lang: "es",
-  canonical: "https://tricotconsulting.com/",
-  hreflangEs: "https://tricotconsulting.com/",
-  hreflangEn: "https://tricotconsulting.com/en/",
+  canonical: "https://untricot.com/",
+  hreflangEs: "https://untricot.com/",
+  hreflangEn: "https://untricot.com/en/",
   h1: "Haz que tu negocio crezca sin que todo tenga que pasar por ti."
 });
 
 await verifyPage("en/index.html", {
   lang: "en",
-  canonical: "https://tricotconsulting.com/en/",
-  hreflangEs: "https://tricotconsulting.com/",
-  hreflangEn: "https://tricotconsulting.com/en/",
+  canonical: "https://untricot.com/en/",
+  hreflangEs: "https://untricot.com/",
+  hreflangEn: "https://untricot.com/en/",
   h1: "Help your business grow without having everything run through you."
 });
 
 for (const page of servicePages) {
-  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
-  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`;
   await verifyPage(page.output, {
     lang: page.lang,
     canonical: page.canonical,
@@ -108,8 +108,8 @@ for (const page of servicePages) {
 }
 
 for (const page of t3Pages) {
-  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
-  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`;
   await verifyPage(page.output, {
     lang: page.lang,
     canonical: page.canonical,
@@ -122,8 +122,8 @@ for (const page of t3Pages) {
 }
 
 for (const page of resourcePages) {
-  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
-  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`;
   await verifyPage(page.output, {
     lang: page.lang,
     canonical: page.canonical,
@@ -183,7 +183,7 @@ const robotsSource = await readFile(resolve(root, "robots.txt"), "utf8");
 if (robotsSource !== renderRobots()) failures.push("robots.txt: differs from central crawler policy");
 expect(robotsSource, /^User-agent: \*$/m, "robots.txt: missing wildcard user-agent");
 expect(robotsSource, /^Allow: \/$/m, "robots.txt: public crawl is not allowed");
-expect(robotsSource, /^Sitemap: https:\/\/tricotconsulting\.com\/sitemap\.xml$/m, "robots.txt: missing absolute sitemap URL");
+expect(robotsSource, /^Sitemap: https:\/\/untricot\.com\/sitemap\.xml$/m, "robots.txt: missing absolute sitemap URL");
 if (/^Disallow:/m.test(robotsSource)) failures.push("robots.txt: page-level noindex must remain crawlable");
 
 const sitemapSource = await readFile(resolve(root, "sitemap.xml"), "utf8");
@@ -193,11 +193,11 @@ expect(sitemapSource, /<\/urlset>\s*$/, "sitemap.xml: closing urlset");
 const sitemapUrls = [...sitemapSource.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 if (new Set(sitemapUrls).size !== sitemapUrls.length) failures.push("sitemap.xml: duplicate URLs");
 for (const url of sitemapUrls) {
-  if (!generated.some((page) => `https://tricotconsulting.com${page.route}` === url)) failures.push(`sitemap.xml: unknown URL ${url}`);
+  if (!generated.some((page) => `https://untricot.com${page.route}` === url)) failures.push(`sitemap.xml: unknown URL ${url}`);
   if (!isIndexable(url)) failures.push(`sitemap.xml: non-indexable URL ${url}`);
 }
 for (const route of indexablePaths) {
-  const canonical = `https://tricotconsulting.com${route}`;
+  const canonical = `https://untricot.com${route}`;
   if (!sitemapUrls.includes(canonical)) failures.push(`sitemap.xml: missing authorised URL ${canonical}`);
 }
 

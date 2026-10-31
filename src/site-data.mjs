@@ -3,7 +3,7 @@ export const pages = {
     lang: "es",
     output: "index.html",
     assetPrefix: "",
-    canonical: "https://tricotconsulting.com/",
+    canonical: "https://untricot.com/",
     title: "TRICOT — Software, automatización e IA para operaciones",
     description: "Ordenamos procesos, datos y decisiones; después construimos e implantamos el software, las automatizaciones y la IA que necesita la operación.",
     ogLocale: "es_ES",
@@ -31,7 +31,7 @@ export const pages = {
     lang: "en",
     output: "en/index.html",
     assetPrefix: "../",
-    canonical: "https://tricotconsulting.com/en/",
+    canonical: "https://untricot.com/en/",
     title: "TRICOT — Software, automation and AI for operations",
     description: "We bring structure to processes, data and decisions, then build and implement the software, automation and AI the operation needs.",
     ogLocale: "en_US",
@@ -63,20 +63,20 @@ export function entityGraph(page) {
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://tricotconsulting.com/#website",
-        url: "https://tricotconsulting.com/",
+        "@id": "https://untricot.com/#website",
+        url: "https://untricot.com/",
         name: "TRICOT",
         inLanguage: ["es", "en"],
-        publisher: { "@id": "https://tricotconsulting.com/#organization" }
+        publisher: { "@id": "https://untricot.com/#organization" }
       },
       {
         "@type": "Organization",
-        "@id": "https://tricotconsulting.com/#organization",
+        "@id": "https://untricot.com/#organization",
         name: "TRICOT",
-        url: "https://tricotconsulting.com/",
+        url: "https://untricot.com/",
         logo: {
           "@type": "ImageObject",
-          url: "https://tricotconsulting.com/assets/brand/tricot-wordmark.png",
+          url: "https://untricot.com/assets/brand/tricot-wordmark.png",
           width: 1200,
           height: 360
         },
@@ -89,8 +89,8 @@ export function entityGraph(page) {
         name: page.title,
         description: page.description,
         inLanguage: page.lang,
-        isPartOf: { "@id": "https://tricotconsulting.com/#website" },
-        about: { "@id": "https://tricotconsulting.com/#organization" }
+        isPartOf: { "@id": "https://untricot.com/#website" },
+        about: { "@id": "https://untricot.com/#organization" }
       }
     ]
   };

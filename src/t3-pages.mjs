@@ -1,6 +1,6 @@
 const institutionalEs = {
   kind: "institutional", lang: "es", output: "tricot/index.html", assetPrefix: "../",
-  canonical: "https://tricotconsulting.com/tricot/", languageUrl: "/en/tricot/", homeUrl: "/",
+  canonical: "https://untricot.com/tricot/", languageUrl: "/en/tricot/", homeUrl: "/",
   title: "Qué es TRICOT — Software, automatización e IA",
   description: "TRICOT es una consultoría que ordena operaciones y diseña, construye e implanta software, automatizaciones y agentes con control.",
   breadcrumb: "Qué es TRICOT", kicker: "TRICOT · Operaciones · Software · Automatización · IA",
@@ -56,7 +56,7 @@ const institutionalEs = {
 };
 
 const institutionalEn = {
-  ...institutionalEs, lang: "en", output: "en/tricot/index.html", assetPrefix: "../../", canonical: "https://tricotconsulting.com/en/tricot/", languageUrl: "/tricot/", homeUrl: "/en/",
+  ...institutionalEs, lang: "en", output: "en/tricot/index.html", assetPrefix: "../../", canonical: "https://untricot.com/en/tricot/", languageUrl: "/tricot/", homeUrl: "/en/",
   title: "About TRICOT — Software, automation and AI", description: "TRICOT is a consultancy that structures operations and designs, builds and implements software, automation and controlled AI agents.",
   breadcrumb: "About TRICOT", kicker: "TRICOT · Operations · Software · Automation · AI", h1: "Technology does not need to understand your business. The people implementing it do.",
   h1Accent: "The people implementing it do.",
@@ -76,7 +76,7 @@ const institutionalEn = {
 };
 
 const consultationEs = {
-  kind: "consultation", lang: "es", output: "diagnostico-operativo/index.html", assetPrefix: "../", canonical: "https://tricotconsulting.com/diagnostico-operativo/", languageUrl: "/en/initial-consultation/", homeUrl: "/",
+  kind: "consultation", lang: "es", output: "diagnostico-operativo/index.html", assetPrefix: "../", canonical: "https://untricot.com/diagnostico-operativo/", languageUrl: "/en/initial-consultation/", homeUrl: "/",
   title: "Primera consulta operativa sin coste — TRICOT", description: "Explícanos qué parte de la operación genera fricción. Revisaremos el contexto y, si existe encaje, te invitaremos a una primera consulta sin coste.",
   breadcrumb: "Primera consulta", kicker: "Primera consulta sin coste · Revisión previa", h1: "Cuéntanos dónde se atasca el trabajo. Las herramientas vienen después.",
   h1Accent: "Las herramientas vienen después.",
@@ -97,7 +97,7 @@ const consultationEs = {
 };
 
 const consultationEn = {
-  ...consultationEs, lang: "en", output: "en/initial-consultation/index.html", assetPrefix: "../../", canonical: "https://tricotconsulting.com/en/initial-consultation/", languageUrl: "/diagnostico-operativo/", homeUrl: "/en/",
+  ...consultationEs, lang: "en", output: "en/initial-consultation/index.html", assetPrefix: "../../", canonical: "https://untricot.com/en/initial-consultation/", languageUrl: "/diagnostico-operativo/", homeUrl: "/en/",
   title: "Free initial operations consultation — TRICOT", description: "Tell us which part of the operation is creating friction. We will review the context and, if there is a fit, invite you to a free initial consultation.", breadcrumb: "Initial consultation", kicker: "Free initial consultation · Application reviewed first", h1: "Tell us where the work gets stuck. The tools come later.", h1Accent: "The tools come later.", subtitle: "Describe the problem, who it affects and why it matters now. We will review the context before replying. If we can help, we will invite you to a free initial consultation.",
   primaryCta: "See information needed", primaryUrl: "#contacto", secondaryCta: "How it works", secondaryUrl: "#process", heroPanelLabel: "Initial consultation terms", heroFacts: [{ title: "FREE", text: "An initial conversation to understand the problem and assess fit." }, { title: "REVIEWED FIRST", text: "Calendar is not provided automatically; the context is reviewed first." }, { title: "BOUNDED", text: "It does not include a full audit or detailed solution design." }],
   answerKicker: "Direct answer", answerTitle: "A conversation to decide the next step. Not a free audit.", directAnswer: "TRICOT's free initial consultation is a conversation to understand an operational problem and determine whether there is a fit. We review the information before offering a booking link. It may lead to a direct proposal, a paid assessment, a specific follow-up or an honest no-fit decision. It does not include a full audit or detailed solution design.", answerNote: "No duration or response time is published until real availability and a sustainable SLA exist.",

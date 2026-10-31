@@ -31,7 +31,7 @@ Fuente tecnica canonica de la landing publica de TRICOT.
 
 GitHub Pages publica la rama `main` desde la raiz del repositorio.
 
-Dominio canonico: `https://tricotconsulting.com`.
+Dominio canonico: `https://untricot.com`.
 
 ## Desarrollo local
 

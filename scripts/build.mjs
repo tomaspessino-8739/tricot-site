@@ -41,9 +41,9 @@ for (const [locale, page] of Object.entries(pages)) {
     DESCRIPTION: escapeAttribute(page.description),
     TITLE: escapeAttribute(page.title),
     CANONICAL: escapeAttribute(page.canonical),
-    HREFLANG_ES: "https://tricotconsulting.com/",
-    HREFLANG_EN: "https://tricotconsulting.com/en/",
-    HREFLANG_X_DEFAULT: "https://tricotconsulting.com/",
+    HREFLANG_ES: "https://untricot.com/",
+    HREFLANG_EN: "https://untricot.com/en/",
+    HREFLANG_X_DEFAULT: "https://untricot.com/",
     OG_LOCALE: page.ogLocale,
     OG_IMAGE_ALT: escapeAttribute(page.ogImageAlt),
     ASSET_PREFIX: page.assetPrefix,
@@ -103,7 +103,7 @@ for (const page of servicePages) {
       name: page.serviceName,
       description: page.description,
       url: page.canonical,
-      provider: { "@id": "https://tricotconsulting.com/#organization" }
+      provider: { "@id": "https://untricot.com/#organization" }
     });
   }
   const jsonLd = JSON.stringify(graph).replaceAll("</script", "<\\/script");
@@ -113,9 +113,9 @@ for (const page of servicePages) {
     DESCRIPTION: escapeAttribute(page.description),
     TITLE: escapeAttribute(page.title),
     CANONICAL: escapeAttribute(page.canonical),
-    HREFLANG_ES: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
-    HREFLANG_EN: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
-    HREFLANG_X_DEFAULT: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
+    HREFLANG_ES: page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`,
+    HREFLANG_EN: page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`,
+    HREFLANG_X_DEFAULT: page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`,
     OG_LOCALE: base.ogLocale,
     OG_IMAGE_ALT: escapeAttribute(base.ogImageAlt),
     ASSET_PREFIX: page.assetPrefix,
@@ -171,8 +171,8 @@ for (const page of t3Pages) {
     }))
   });
   const jsonLd = JSON.stringify(graph).replaceAll("</script", "<\\/script");
-  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
-  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`;
   const html = render(layout, {
     LANG: page.lang,
     ROBOTS: robotsDirective(page.canonical),
@@ -228,14 +228,14 @@ for (const page of resourcePages) {
       inLanguage: page.lang,
       datePublished: "2026-08-30",
       dateModified: "2026-08-30",
-      author: { "@id": "https://tricotconsulting.com/#organization" },
-      publisher: { "@id": "https://tricotconsulting.com/#organization" },
+      author: { "@id": "https://untricot.com/#organization" },
+      publisher: { "@id": "https://untricot.com/#organization" },
       mainEntityOfPage: { "@id": `${page.canonical}#webpage` }
     });
   }
   const breadcrumbItems = [
     { "@type": "ListItem", position: 1, name: page.lang === "es" ? "Inicio" : "Home", item: base.canonical },
-    ...(page.kind === "article" ? [{ "@type": "ListItem", position: 2, name: page.lang === "es" ? "Recursos" : "Resources", item: `https://tricotconsulting.com${page.hubUrl}` }] : []),
+    ...(page.kind === "article" ? [{ "@type": "ListItem", position: 2, name: page.lang === "es" ? "Recursos" : "Resources", item: `https://untricot.com${page.hubUrl}` }] : []),
     { "@type": "ListItem", position: page.kind === "article" ? 3 : 2, name: page.breadcrumb, item: page.canonical }
   ];
   graph["@graph"].push({ "@type": "BreadcrumbList", "@id": `${page.canonical}#breadcrumb`, itemListElement: breadcrumbItems });
@@ -251,8 +251,8 @@ for (const page of resourcePages) {
     });
   }
   const jsonLd = JSON.stringify(graph).replaceAll("</script", "<\\/script");
-  const spanishUrl = page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
-  const englishUrl = page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`;
+  const spanishUrl = page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`;
+  const englishUrl = page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`;
   const html = render(layout, {
     LANG: page.lang,
     ROBOTS: robotsDirective(page.canonical),
@@ -305,18 +305,18 @@ const sitemapRecords = [
   },
   ...servicePages.map((page) => ({
     canonical: page.canonical,
-    hreflangEs: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
-    hreflangEn: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`
+    hreflangEs: page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`,
+    hreflangEn: page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`
   })),
   ...t3Pages.map((page) => ({
     canonical: page.canonical,
-    hreflangEs: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
-    hreflangEn: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`
+    hreflangEs: page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`,
+    hreflangEn: page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`
   })),
   ...resourcePages.map((page) => ({
     canonical: page.canonical,
-    hreflangEs: page.lang === "es" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`,
-    hreflangEn: page.lang === "en" ? page.canonical : `https://tricotconsulting.com${page.languageUrl}`
+    hreflangEs: page.lang === "es" ? page.canonical : `https://untricot.com${page.languageUrl}`,
+    hreflangEn: page.lang === "en" ? page.canonical : `https://untricot.com${page.languageUrl}`
   }))
 ];
 
