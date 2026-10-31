@@ -1,97 +1,93 @@
+export const origin = "https://untricot.com";
+
+// Contact remains a preview until its mailbox is created and verified.
+export const contact = { email: "info@tricot.com", active: false };
+
 export const pages = {
   es: {
     lang: "es",
     output: "index.html",
-    assetPrefix: "",
-    canonical: "https://untricot.com/",
-    title: "TRICOT — Software, automatización e IA para operaciones",
-    description: "Ordenamos procesos, datos y decisiones; después construimos e implantamos el software, las automatizaciones y la IA que necesita la operación.",
+    canonical: origin + "/",
+    title: "TRICOT — Aplicaciones para empresas de alquiler turístico",
+    description: "Tres aplicaciones conectadas para compartir propiedades con colaboradores, gestionar reservas y cuentas, y mantener informados a los propietarios.",
     ogLocale: "es_ES",
-    ogImageAlt: "Arquitectura mediterránea junto a una piscina, imagen editorial de TRICOT.",
     homeUrl: "/",
     languageUrl: "/en/",
     otherLang: "en",
-    languageLabel: "EN",
+    languageLabel: "Read in English",
     skipLink: "Saltar al contenido",
     brandLabel: "TRICOT, inicio",
     menuLabel: "Menú",
     navLabel: "Navegación principal",
-    navOperation: "Operación",
-    navSolutions: "Soluciones",
-    navMethod: "Método",
-    navOperationUrl: "/automatizacion-property-management/",
-    navSolutionsUrl: "/consultoria-automatizacion/",
-    navMethodUrl: "/metodo/",
-    headerCta: "Primera consulta",
-    headerCtaUrl: "/diagnostico-operativo/",
-    footerDescriptor: "Software · Automatización · IA · Implantación",
-    backToTop: "Volver arriba ↑"
+    navApplications: "Aplicaciones",
+    navJourney: "Cómo se conectan",
+    navImplementation: "Puesta en marcha",
+    navContact: "Contacto",
+    applicationsUrl: "#aplicaciones",
+    journeyUrl: "#recorrido",
+    implementationUrl: "#puesta-en-marcha",
+    footerDescriptor: "Aplicaciones para empresas de alquiler turístico",
+    backToTop: "Volver arriba ↑",
+    contactLabel: "Correo en preparación",
+    contactHint: "Pronto podrás escribirnos aquí."
   },
   en: {
     lang: "en",
     output: "en/index.html",
-    assetPrefix: "../",
-    canonical: "https://untricot.com/en/",
-    title: "TRICOT — Software, automation and AI for operations",
-    description: "We bring structure to processes, data and decisions, then build and implement the software, automation and AI the operation needs.",
-    ogLocale: "en_US",
-    ogImageAlt: "Mediterranean architecture beside a pool, an editorial image by TRICOT.",
+    canonical: origin + "/en/",
+    title: "TRICOT — Applications for holiday rental businesses",
+    description: "Three connected applications to share properties with partners, manage bookings and finances, and keep property owners informed.",
+    ogLocale: "en_GB",
     homeUrl: "/en/",
     languageUrl: "/",
     otherLang: "es",
-    languageLabel: "ES",
+    languageLabel: "Leer en castellano",
     skipLink: "Skip to content",
     brandLabel: "TRICOT, home",
     menuLabel: "Menu",
     navLabel: "Primary navigation",
-    navOperation: "Operations",
-    navSolutions: "Solutions",
-    navMethod: "Method",
-    navOperationUrl: "/en/property-management-automation/",
-    navSolutionsUrl: "/en/automation-consulting/",
-    navMethodUrl: "/en/method/",
-    headerCta: "Initial consultation",
-    headerCtaUrl: "/en/initial-consultation/",
-    footerDescriptor: "Software · Automation · AI · Implementation",
-    backToTop: "Back to top ↑"
+    navApplications: "Applications",
+    navJourney: "How they connect",
+    navImplementation: "Getting started",
+    navContact: "Contact",
+    applicationsUrl: "#applications",
+    journeyUrl: "#journey",
+    implementationUrl: "#getting-started",
+    footerDescriptor: "Applications for holiday rental businesses",
+    backToTop: "Back to top ↑",
+    contactLabel: "Email coming soon",
+    contactHint: "You will be able to contact us here soon."
   }
 };
+
+export const legacyRoutes = [
+  ["automatizacion-property-management", "/#aplicaciones"],
+  ["consultoria-automatizacion", "/#aplicaciones"],
+  ["software-a-medida", "/#aplicaciones"],
+  ["metodo", "/#puesta-en-marcha"],
+  ["agentes-ia-empresas", "/#aplicaciones"],
+  ["tricot", "/"],
+  ["diagnostico-operativo", "/#contacto"],
+  ["recursos", "/#recorrido"],
+  ["recursos/conectar-reservas-operacion-reporting", "/#recorrido"],
+  ["en/property-management-automation", "/en/#applications"],
+  ["en/automation-consulting", "/en/#applications"],
+  ["en/custom-software", "/en/#applications"],
+  ["en/method", "/en/#getting-started"],
+  ["en/ai-agents-for-business", "/en/#applications"],
+  ["en/tricot", "/en/"],
+  ["en/initial-consultation", "/en/#contacto"],
+  ["en/resources", "/en/#journey"],
+  ["en/resources/connect-reservations-operations-reporting", "/en/#journey"]
+];
 
 export function entityGraph(page) {
   return {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://untricot.com/#website",
-        url: "https://untricot.com/",
-        name: "TRICOT",
-        inLanguage: ["es", "en"],
-        publisher: { "@id": "https://untricot.com/#organization" }
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://untricot.com/#organization",
-        name: "TRICOT",
-        url: "https://untricot.com/",
-        logo: {
-          "@type": "ImageObject",
-          url: "https://untricot.com/assets/brand/tricot-wordmark.png",
-          width: 1200,
-          height: 360
-        },
-        description: page.description
-      },
-      {
-        "@type": "WebPage",
-        "@id": `${page.canonical}#webpage`,
-        url: page.canonical,
-        name: page.title,
-        description: page.description,
-        inLanguage: page.lang,
-        isPartOf: { "@id": "https://untricot.com/#website" },
-        about: { "@id": "https://untricot.com/#organization" }
-      }
+      { "@type": "WebSite", "@id": origin + "/#website", url: origin + "/", name: "TRICOT", inLanguage: ["es", "en"], publisher: { "@id": origin + "/#organization" } },
+      { "@type": "Organization", "@id": origin + "/#organization", name: "TRICOT", url: origin + "/", description: pages.es.description },
+      { "@type": "WebPage", "@id": page.canonical + "#webpage", url: page.canonical, name: page.title, description: page.description, inLanguage: page.lang, isPartOf: { "@id": origin + "/#website" }, about: { "@id": origin + "/#organization" } }
     ]
   };
 }

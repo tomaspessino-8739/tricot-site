@@ -1,56 +1,51 @@
 # TRICOT Site
 
-Fuente tecnica canonica de la landing publica de TRICOT.
-
-## Estado
-
-- Sitio estatico.
-- Datos de las demostraciones: sinteticos.
-- Veinte paginas generadas en castellano e ingles desde un shell compartido.
-- Verticales locales: Property Management, consultoria de automatizacion,
-  software a medida, metodo y Agentes IA.
-- Agentes IA permanece fuera de la navegacion comercial y sujeto a su gate de
-  evidencia.
-- Entidad institucional y recorrido de primera consulta completados en local.
-- Hub de recursos y primera guia original de Property Management publicados en
-  castellano e ingles, con aprendizaje operativo anonimizado y sin presentarlo
-  como caso de cliente.
-- Sistema tipografico local: Cinzel para jerarquia editorial, Courier New para
-  parrafos y Montserrat para entradillas e interfaz.
-- Captacion: desactivada de forma explicita; no se recoge ni guarda el email.
-- Indexacion: desactivada desde una politica central. Las paginas revisadas usan
-  `noindex, follow`; Agentes IA conserva `noindex, nofollow`.
-- Descubrimiento local: `robots.txt`, sitemap derivado de rutas autorizadas y
-  pagina 404 bilingue.
-- Rendimiento: T5 publicado con imágenes responsivas, wordmark optimizado y
-  fuentes locales. La última traza móvil fría registró LCP 1,78 s y CLS 0.
-- Estado publico: T0-T6 estan publicados. La indexacion y la captacion siguen
-  bloqueadas por sus gates separados.
-
-## Publicacion
-
+Fuente tecnica canonica de [untricot.com](https://untricot.com/).
 GitHub Pages publica la rama `main` desde la raiz del repositorio.
 
-Dominio canonico: `https://untricot.com`.
+## Oferta vigente desde 2026-10-31
 
-## Desarrollo local
+Tres aplicaciones para empresas de alquiler turistico:
 
-No hay dependencias externas de proyecto. Se necesita Node.js para generar y
-verificar las paginas:
+1. Catalogo para colaboradores: propiedades, disponibilidad, precios, contenido y solicitudes.
+2. Gestion de propiedades y reservas: contactos, documentos, calendario, reparto economico, cobros, pagos y exportacion para contabilidad.
+3. Portal privado de propietarios: reservas, importes cobrados, parte correspondiente, pagos recibidos y pendientes.
 
-```bash
+TRICOT adapta las aplicaciones y acompana al equipo en su puesta en marcha.
+La portada comunica esta oferta en menos de 400 palabras por idioma.
+La consultoria generica, Palantir, Forward Deployed y los servicios futuros de IA
+se han retirado del recorrido comercial por decision del propietario.
+
+## Estructura
+
+- Dos paginas comerciales activas: castellano `/` e ingles `/en/`.
+- Cinco secciones: presentacion, aplicaciones, recorrido compartido, puesta en marcha y contacto.
+- Dieciocho rutas anteriores llevan a la seccion equivalente de la portada.
+  Son redirecciones estaticas con canonical, meta refresh y enlace de respaldo,
+  no respuestas HTTP 301. JavaScript conserva los parametros de consulta.
+- Sin fotos, videos, capturas, demos, huecos de imagen ni imagen social heredada.
+  TRICOT se presenta como texto; los activos anteriores siguen recuperables.
+- Tipografia local existente: Cinzel, Courier New y Montserrat.
+- Contacto provisional confirmado por el propietario: `info@tricot.com`.
+  Buzon aun no creado: se muestra en preparacion, sin `mailto:`, formulario,
+  recogida de datos ni simulacion de envio.
+- Indexacion: politica anterior conservada; `indexablePaths` sigue vacio.
+
+## Desarrollo
+
+No hay dependencias externas de proyecto. Node.js genera y comprueba las paginas:
+
+```sh
 npm run check
-python3 -m http.server 4173
+python3 -m http.server 4181 --bind 127.0.0.1
 ```
 
-`npm run build` genera las dos portadas, nueve parejas de paginas interiores,
-`robots.txt`, `sitemap.xml` y `404.html`. `npm run verify` comprueba canonical,
-`hreflang`, H1, schema, unicidad, enlaces internos, politica de indexacion,
-sitemap, robots, el aislamiento de Agentes IA y que no reaparezca la captacion
-de prototipo.
+`src/home.es.html` y `src/home.en.html` contienen el texto.
+`src/layout.html` contiene la estructura compartida.
+`src/site-data.mjs` define metadatos, contacto y rutas anteriores.
+`scripts/build.mjs` genera HTML, rutas anteriores, robots, sitemap y 404.
+`scripts/verify-site.mjs` verifica enlaces, idiomas, metadatos, datos
+estructurados, extension del contenido, ausencia de imagenes y estado del contacto.
 
-La lista `indexablePaths` de `src/indexing-policy.mjs` esta vacia. Por eso el
-sitemap no anuncia ninguna URL hasta que la indexacion se autorice por parejas
-ES/EN.
-
-El checkpoint anterior a T0/T1 esta documentado en `docs/BASELINE.md`.
+La migracion de dominio permanece documentada en `docs/DOMAIN_MIGRATION.md`.
+La revision actual y el rollback se documentan en `docs/CONTENT_SIMPLIFICATION.md`.

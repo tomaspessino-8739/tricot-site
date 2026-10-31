@@ -8,46 +8,44 @@
     <meta name="description" content="{{DESCRIPTION}}" />
     <title>{{TITLE}}</title>
     <link rel="canonical" href="{{CANONICAL}}" />
-    <link rel="alternate" hreflang="es" href="{{HREFLANG_ES}}" />
-    <link rel="alternate" hreflang="en" href="{{HREFLANG_EN}}" />
-    <link rel="alternate" hreflang="x-default" href="{{HREFLANG_X_DEFAULT}}" />
+    <link rel="alternate" hreflang="es" href="https://untricot.com/" />
+    <link rel="alternate" hreflang="en" href="https://untricot.com/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://untricot.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="TRICOT" />
     <meta property="og:locale" content="{{OG_LOCALE}}" />
     <meta property="og:title" content="{{TITLE}}" />
     <meta property="og:description" content="{{DESCRIPTION}}" />
     <meta property="og:url" content="{{CANONICAL}}" />
-    <meta property="og:image" content="https://untricot.com/assets/images/tricot-hero-property.jpg" />
-    <meta property="og:image:alt" content="{{OG_IMAGE_ALT}}" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="{{TITLE}}" />
     <meta name="twitter:description" content="{{DESCRIPTION}}" />
-    <meta name="twitter:image" content="https://untricot.com/assets/images/tricot-hero-property.jpg" />
-    <link rel="icon" href="{{ASSET_PREFIX}}assets/brand/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href="{{ASSET_PREFIX}}assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="{{ASSET_PREFIX}}assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="{{ASSET_PREFIX}}styles.css" />
+    <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/styles.css" />
     <script type="application/ld+json">{{JSON_LD}}</script>
   </head>
   <body>
     <a class="skip-link" href="#contenido">{{SKIP_LINK}}</a>
     <header class="site-header" data-header>
-      <a class="brand" href="{{HOME_URL}}" aria-label="{{BRAND_LABEL}}"><img src="{{ASSET_PREFIX}}assets/brand/tricot-wordmark-600.webp" srcset="{{ASSET_PREFIX}}assets/brand/tricot-wordmark-600.webp 600w, {{ASSET_PREFIX}}assets/brand/tricot-wordmark-900.webp 900w" sizes="140px" alt="TRICOT" width="140" height="42" /></a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle><span>{{MENU_LABEL}}</span><span aria-hidden="true">↗</span></button>
+      <a class="brand" href="{{HOME_URL}}" aria-label="{{BRAND_LABEL}}">TRICOT</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>{{MENU_LABEL}} <span aria-hidden="true">＋</span></button>
       <nav class="site-nav" id="site-nav" aria-label="{{NAV_LABEL}}" data-nav>
-        <a href="{{NAV_OPERATION_URL}}">{{NAV_OPERATION}}</a>
-        <a href="{{NAV_SOLUTIONS_URL}}">{{NAV_SOLUTIONS}}</a>
-        <a href="{{NAV_METHOD_URL}}">{{NAV_METHOD}}</a>
-        <a class="language-link" href="{{LANGUAGE_URL}}" lang="{{OTHER_LANG}}" hreflang="{{OTHER_LANG}}">{{LANGUAGE_LABEL}}</a>
+        <a href="{{APPLICATIONS_URL}}">{{NAV_APPLICATIONS}}</a>
+        <a href="{{JOURNEY_URL}}">{{NAV_JOURNEY}}</a>
+        <a href="{{IMPLEMENTATION_URL}}">{{NAV_IMPLEMENTATION}}</a>
+        <a href="#contacto">{{NAV_CONTACT}}</a>
+        <a class="language-link" href="{{LANGUAGE_URL}}" lang="{{OTHER_LANG}}" hreflang="{{OTHER_LANG}}" aria-label="{{LANGUAGE_LABEL}}">{{OTHER_LANG_UPPER}}</a>
       </nav>
-      <a class="header-cta" href="{{HEADER_CTA_URL}}">{{HEADER_CTA}}</a>
     </header>
 {{BODY}}
     <footer class="site-footer">
-      <img src="{{ASSET_PREFIX}}assets/brand/tricot-wordmark-600.webp" srcset="{{ASSET_PREFIX}}assets/brand/tricot-wordmark-600.webp 600w, {{ASSET_PREFIX}}assets/brand/tricot-wordmark-900.webp 900w" sizes="300px" alt="TRICOT" width="300" height="90" loading="lazy" decoding="async" />
-      <div><p>{{FOOTER_DESCRIPTOR}}</p><p>© <span data-year></span> TRICOT</p></div>
+      <a class="brand" href="{{HOME_URL}}" aria-label="{{BRAND_LABEL}}">TRICOT</a>
+      <p>{{FOOTER_DESCRIPTOR}}</p>
       <a href="#inicio">{{BACK_TO_TOP}}</a>
+      <small>© <span data-year></span> TRICOT</small>
     </footer>
-    <script src="{{ASSET_PREFIX}}app.js" defer></script>
+    <script src="/app.js" defer></script>
   </body>
 </html>
