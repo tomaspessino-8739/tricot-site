@@ -1,0 +1,11 @@
+{
+  "name": "Legacy domain migration",
+  "description": "Preserve every legacy path and query while moving to untricot.com",
+  "enabled": true,
+  "srcSyntax": "regex",
+  "route": {
+    "src": "^/(.*)$",
+    "dest": "https://untricot.com/$1",
+    "status": 301
+  }
+}
