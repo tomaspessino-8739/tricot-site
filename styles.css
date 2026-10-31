@@ -75,7 +75,9 @@ p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height:
 .applications { padding-bottom: 72px; }
 .application { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(40px,8vw,115px); padding-block: 44px; border-top: 1px solid var(--line); scroll-margin-top: 100px; }
 .application:last-child { border-bottom: 1px solid var(--line); }
-.application-heading .number { display: block; margin-bottom: 28px; }
+.application-identity { display: flex; align-items: center; gap: 22px; margin-bottom: 24px; }
+.application-icon { display: block; flex: 0 0 80px; width: 80px; height: 80px; object-fit: contain; }
+.application-heading .number { display: block; }
 .application-heading h3 { font-size: clamp(1.65rem,2.7vw,2.45rem); line-height: 1.25; }
 .application-copy > p { color: var(--ink-soft); }
 .application-copy p:last-child { margin-bottom: 0; }
@@ -139,7 +141,7 @@ p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height:
   .section-heading { margin-bottom: 34px; }
   .application, .implementation { grid-template-columns: 1fr; gap: 26px; }
   .application { padding-block: 34px; }
-  .application-heading .number { margin-bottom: 18px; }
+  .application-identity { gap: 18px; margin-bottom: 20px; }
   .application-heading h3 { font-size: 1.8rem; }
   p { font-size: .96rem; }
   .journey { grid-template-columns: 1fr; }

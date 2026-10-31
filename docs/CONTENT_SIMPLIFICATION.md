@@ -71,3 +71,39 @@ cabecera y pie de ambos idiomas, ademas de la pagina 404. Los archivos de
 imagen son los mismos de la version anterior a la simplificacion, sin edicion.
 La restriccion de fotografias y demos se limita al contenido. La comprobacion
 automatica distingue estas imagenes de marca y exige el logotipo original.
+
+## Iconos y servicio adaptado — revision posterior del 2026-10-31
+
+El propietario autoriza incorporar las tres aves originales para distinguir
+las aplicaciones, sin recuperar fotografias ni demos. Se usan los PNG
+transparentes aprobados de 256 px, sin modificar sus bytes: dorado en catalogo,
+rojo en gestion de propiedades y reservas, azul en portal de propietarios.
+La verificacion exige cada icono en su articulo, ademas del logotipo original.
+
+Cada aplicacion termina ahora con una sola frase, centrada respectivamente en
+alcance comercial, control y confianza. Se retiran los dialogos humoristicos.
+
+La seccion de implantacion explica la observacion del trabajo real, la
+adaptacion conjunta, la automatizacion de tareas repetitivas y la incorporacion
+de un asistente conectado a las aplicaciones. Este ultimo consulta y ejecuta
+acciones autorizadas; no se promete control ilimitado, una integracion universal
+ni que todas las funciones esten disponibles sin implantacion.
+
+Se mantienen cinco secciones y menos de 500 palabras principales por idioma.
+Esta decision actualiza el alcance anterior que retiraba toda mencion a IA y
+automatizaciones. No cambia el contacto inactivo, la indexacion ni el hosting.
+Baseline de esta revision: `2b97aaa9e2d2ede225678ce3feb4d68daf21433f`.
+Rollback acotado: revertir el commit de esta revision, sin alterar otras areas.
+
+QA de esta revision:
+
+- Generacion, verificacion estatica, sintaxis de JS y whitespace: PASS.
+- 440 palabras principales en castellano y 450 en ingles.
+- Chrome a 320, 390, 768 y 1440 px en ambos idiomas: sin desbordamientos,
+  con tipografias cargadas y sin errores de consola.
+- Cinco imagenes cargadas: dos logotipos originales y tres iconos de app de
+  80 x 80 px sin deformacion. Hashes de los PNG originales comprobados.
+- Menu movil por teclado, Escape, retorno de foco y cierre al navegar: PASS.
+- Lectura de aplicaciones y metodologia sin JavaScript: PASS.
+- Sin formulario, enlace de correo activo ni cambios de indexacion.
+- Capturas de escritorio y movil revisadas fuera de Drive y del repositorio.
