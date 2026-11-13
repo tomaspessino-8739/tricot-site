@@ -34,8 +34,8 @@ La consultoria generica, Palantir y Forward Deployed siguen fuera del recorrido.
 - Dieciocho rutas anteriores llevan a la seccion equivalente de la portada.
   Son redirecciones estaticas con canonical, meta refresh y enlace de respaldo,
   no respuestas HTTP 301. JavaScript conserva los parametros de consulta.
-- Cuatro fotos editoriales cuadradas y los tres iconos originales de aplicaciones:
-  ave dorada para colaboradores, roja para reservas y azul para propietarios.
+- Cuatro fotos editoriales cuadradas. Las tres herramientas se presentan
+  con sus títulos y descripciones alineados al margen de lectura.
   Se conserva el logotipo original en cabecera y pie.
 - Tipografia local: Cinzel para titulares y Montserrat para el resto del texto.
 - Contacto provisional confirmado por el propietario: `info@tricot.com`.
@@ -58,7 +58,7 @@ python3 -m http.server 4181 --bind 127.0.0.1
 `scripts/build.mjs` genera HTML, rutas anteriores, robots, sitemap y 404.
 `scripts/verify-site.mjs` verifica enlaces, idiomas, metadatos, datos
 estructurados, orden y extension de la carta, logotipo original, identidad y
-bytes de los tres iconos aprobados, foto editorial y estado del contacto.
+fotografías editoriales y estado del contacto.
 
 La migracion de dominio permanece documentada en `docs/DOMAIN_MIGRATION.md`.
 La version anterior y su rollback se documentan en `docs/CONTENT_SIMPLIFICATION.md`.

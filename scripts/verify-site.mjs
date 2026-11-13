@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,15 +9,6 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (path) => readFile(resolve(root, path), "utf8");
 const htmlByPath = new Map();
 const titles = new Set();
-const appIcons = [
-  ["colaboradores", "ff191a66e8be3950a6dd1f77a8eff7c52b6de8180b3b7b3e52921d53158c320b"],
-  ["reservas", "48a9937199b1305e5394ce915a1c6e7c7a5241df27d8da14ed9533fb1345fada"],
-  ["propietarios", "53370029c4be287c8136eda0acb9643701cc19601ba806fc1dfc0149a3d1499f"]
-];
-for (const [name, hash] of appIcons) {
-  const bytes = await readFile(resolve(root, "assets/brand/apps/" + name + ".png"));
-  assert.equal(createHash("sha256").update(bytes).digest("hex"), hash, name + ": original approved bird icon");
-}
 for (const page of Object.values(pages)) {
   const html = await read(page.output);
   htmlByPath.set(new URL(page.canonical).pathname, html);
@@ -77,20 +67,13 @@ for (const page of Object.values(pages)) {
     for (const id of match[1].split(" ")) assert(ids.includes(id), prefix + "target " + id);
   }
   const images = [...html.matchAll(/<img\b[^>]*>/g)].map((match) => match[0]);
-  assert.equal(images.length, 9, prefix + "two brand logos, three app icons and four editorial photos");
+  assert.equal(images.length, 6, prefix + "two brand logos and four editorial photos");
   assert.equal(images.filter((image) => image.includes('src="/assets/brand/tricot-wordmark-600.webp"') && image.includes('alt="TRICOT"')).length, 2, prefix + "original logo in header and footer");
   const mainHtml = html.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
-  const applications = [...mainHtml.matchAll(/<article class="application"[^>]*>([\s\S]*?)<\/article>/g)].map((match) => match[1]);
-  for (const [index, [name]] of appIcons.entries()) {
-    const expectedIcon = 'src="/assets/brand/apps/' + name + '.png"';
-    assert.equal((applications[index].match(/<img\b/g) || []).length, 1, prefix + name + ": one identity icon");
-    assert(applications[index].includes(expectedIcon), prefix + name + ": correct app identity");
-  }
   const photos = [...mainHtml.matchAll(/<figure class="letter-photo">\s*<img src="([^"]+)"/g)].map(match => match[1]);
   assert.equal(photos.length, 4, prefix + "four editorial photos");
   assert.equal(new Set(photos).size, photos.length, prefix + "distinct editorial photos");
-  assert.equal((mainHtml.match(/<img\b/g) || []).length, 7, prefix + "three app icons and four editorial photos");
-  assert(chapter("story-title").includes('src="/assets/images/tricot-hero-property-720.webp"'), prefix + "existing editorial photograph");
+  assert.equal(photos[0], "/assets/images/villa-armonia-cover.webp", prefix + "Villa Armonía opens the photo sequence");
   assert(!/<picture\b|<video\b|<svg\b/.test(mainHtml), prefix + "no other content media");
   assert(!/og:image|twitter:image/.test(html), prefix + "no inherited social image");
   assert(!/{{[A-Z_]+}}/.test(html), prefix + "rendered template");

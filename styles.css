@@ -95,7 +95,7 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
   width: 88%;
   max-width: 460px;
   aspect-ratio: 1;
-  margin: clamp(30px, 5vw, 48px) auto 0;
+  margin: clamp(44px, 6vw, 76px) auto;
 }
 .letter-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 72%; }
 .letter-list { padding-left: 1.35rem; margin: 0; }
@@ -115,8 +115,7 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
   line-height: 1.25;
   text-wrap: pretty;
 }
-.application { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; margin-top: 20px; }
-.application img { display: block; width: 56px; height: 56px; object-fit: contain; }
+.application + .application { margin-top: 20px; }
 .letter-chapter .letter-emphasis { font-size: clamp(1.12rem, 2vw, 1.3rem); color: var(--accent); }
 .letter-details { border-top: 1px solid var(--line); }
 .letter-details:last-child { border-bottom: 1px solid var(--line); }
