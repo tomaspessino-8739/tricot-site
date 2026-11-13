@@ -34,7 +34,7 @@ for (const page of Object.values(pages)) {
   titles.add(title);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, prefix + "one H1");
   assert.equal((html.match(/<article class="application"/g) || []).length, 3, prefix + "three applications");
-  assert.equal((html.match(/<section\b/g) || []).length, 7, prefix + "concise structure");
+  assert.equal((html.match(/<section\b/g) || []).length, 8, prefix + "concise structure");
   const heroTitle = html.match(/<h1 id="hero-title">([^\n]+)<\/h1>/)?.[1].replace(/<[^>]+>/g, "");
   const expectedOffer = page.lang === "es" ? "Consultora PropTech para gestoras de alquiler vacacional" : "PropTech consultancy for holiday rental operators";
   assert.equal(heroTitle, expectedOffer, prefix + "approved positioning");
@@ -51,6 +51,12 @@ for (const page of Object.values(pages)) {
   const caseSection = html.match(/<section class="section cases"[^>]*>([\s\S]*?)<\/section>/);
   assert(caseSection && html.indexOf('class="section services"') < caseSection.index && caseSection.index < html.indexOf('class="connection section-dark"'), prefix + "cases directly after services");
   assert(html.includes('href="' + page.casesUrl + '"'), prefix + "case navigation");
+  const founderSection = html.match(/<section class="founder section"[^>]*>([\s\S]*?)<\/section>/);
+  assert(founderSection && caseSection.index < founderSection.index && founderSection.index < html.indexOf('class="connection section-dark"'), prefix + "founder follows cases");
+  assert(html.includes('href="' + page.founderUrl + '"'), prefix + "founder navigation");
+  assert(founderSection[1].includes('<h2 id="founder-title">Tomas A. Pessino</h2>'), prefix + "approved founder name");
+  assert(founderSection[1].includes(page.lang === "es" ? "<strong>Más de 100</strong> operaciones inmobiliarias gestionadas" : "<strong>More than 100</strong> property transactions handled"), prefix + "transactions, not implementations");
+  assert(!/<img\b|linkedin\.com/i.test(founderSection[1]), prefix + "no founder photo or LinkedIn");
   const cases = [...caseSection[1].matchAll(/<article class="case-study"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
   assert.deepEqual(cases.map(fragment => fragment.match(/<h3[^>]*>([^<]+)<\/h3>/)?.[1]), [
     "EB Capital Consulting", "Lone Wolf LLC", "Aguamadera Ibiza", "Infinity 8 Real Estate", "OPAL Investments"
@@ -91,8 +97,9 @@ for (const page of Object.values(pages)) {
     else await access(resolve(root, target.slice(1)));
   }
   const words = (content) => content.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
-  assert(words(mainHtml.replace(caseSection[0], "")) < 500, prefix + "core landing stays concise");
+  assert(words(mainHtml.replace(caseSection[0], "").replace(founderSection[0], "")) < 500, prefix + "core landing stays concise");
   assert(words(caseSection[0]) < 520, prefix + "case studies stay concise");
+  assert(words(founderSection[0]) < 240, prefix + "founder bio stays concise");
   console.log(page.output + ": content, metadata, links and media verified (" + words(mainHtml) + " words)");
 }
 for (const [route, target] of legacyRoutes) {

@@ -105,7 +105,12 @@ p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height:
 .journey h3 { margin: 30px 0 16px; font-size: clamp(1.15rem,1.8vw,1.6rem); line-height: 1.35; }
 .journey p { color: #d6d3d1; font-size: .93rem; }
 .connection-close { margin: 30px 0 0; padding-top: 28px; border-top: 1px solid #62605d; font-family: var(--body); font-size: 1rem; }
-.implementation { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); gap: clamp(40px,8vw,115px); }
+.founder, .implementation { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); gap: clamp(40px,8vw,115px); }
+.founder .section-heading { margin: 0; }
+.founder-role { margin-top: 12px; font-family: var(--body); font-size: .9rem; color: var(--ink-soft); }
+.founder-record { max-width: 30ch; margin: 24px 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-family: var(--body); font-size: .85rem; }
+.founder-copy { color: var(--ink-soft); }
+.founder-copy p:last-child { margin-bottom: 0; }
 .implementation .section-heading { margin: 0; }
 .implementation-copy { align-self: center; color: var(--ink-soft); }
 .implementation-copy p:last-child { margin: 0; }
@@ -155,7 +160,7 @@ p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height:
   .service-list li, .service-list li:nth-child(even) { padding: 24px 0; border-left: 0; }
   .case-study { grid-template-columns: 1fr; gap: 16px; padding-block: 24px; }
   .section-heading { margin-bottom: 34px; }
-  .application, .implementation { grid-template-columns: 1fr; gap: 26px; }
+  .application, .founder, .implementation { grid-template-columns: 1fr; gap: 26px; }
   .application { padding-block: 34px; }
   .application-identity { gap: 18px; margin-bottom: 20px; }
   .application-heading h3 { font-size: 1.8rem; }
