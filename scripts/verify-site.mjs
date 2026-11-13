@@ -57,6 +57,13 @@ for (const page of Object.values(pages)) {
   assert(founderSection[1].includes('<h2 id="founder-title">Tomas A. Pessino</h2>'), prefix + "approved founder name");
   assert(founderSection[1].includes(page.lang === "es" ? "<strong>Más de 100</strong> operaciones inmobiliarias gestionadas" : "<strong>More than 100</strong> property transactions handled"), prefix + "transactions, not implementations");
   assert(!/<img\b|linkedin\.com/i.test(founderSection[1]), prefix + "no founder photo or LinkedIn");
+  const implementation = html.match(/<section class="implementation section"[^>]*>[\s\S]*?<\/section>/)?.[0] ?? "";
+  const implementationTitle = page.lang === "es" ? "Delega tareas, no el control." : "Delegate tasks, not control.";
+  const dashboardAccess = page.lang === "es"
+    ? "En ambas modalidades <strong>siempre tienes acceso a tu panel de control</strong>"
+    : "Either way, <strong>you always have access to your dashboard</strong>";
+  assert(implementation.includes('<h2 id="implementation-title">' + implementationTitle + '</h2>'), prefix + "approved implementation headline");
+  assert(implementation.includes(dashboardAccess), prefix + "dashboard access in both operating modes");
   const cases = [...caseSection[1].matchAll(/<article class="case-study"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
   assert.deepEqual(cases.map(fragment => fragment.match(/<h3[^>]*>([^<]+)<\/h3>/)?.[1]), [
     "EB Capital Consulting", "Lone Wolf LLC", "Aguamadera Ibiza", "Infinity 8 Real Estate", "OPAL Investments"
@@ -97,9 +104,10 @@ for (const page of Object.values(pages)) {
     else await access(resolve(root, target.slice(1)));
   }
   const words = (content) => content.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
-  assert(words(mainHtml.replace(caseSection[0], "").replace(founderSection[0], "")) < 500, prefix + "core landing stays concise");
+  assert(words(mainHtml.replace(caseSection[0], "").replace(founderSection[0], "").replace(implementation, "")) < 500, prefix + "core landing stays concise");
   assert(words(caseSection[0]) < 520, prefix + "case studies stay concise");
   assert(words(founderSection[0]) < 240, prefix + "founder bio stays concise");
+  assert(words(implementation) < 240, prefix + "working model stays concise");
   console.log(page.output + ": content, metadata, links and media verified (" + words(mainHtml) + " words)");
 }
 for (const [route, target] of legacyRoutes) {

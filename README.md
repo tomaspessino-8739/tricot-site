@@ -19,9 +19,11 @@ Las tres herramientas propias se muestran como ejemplos de software:
 
 TRICOT parte de como trabaja cada empresa. Puede adaptar herramientas
 propias o conectar las del cliente. La empresa puede operar con su equipo
-o delegar los procesos acordados, con responsabilidades concretas.
-El contenido principal, excluidos los casos y el perfil del fundador, ocupa menos de 500 palabras
-por idioma. Los casos distinguen entregables de indicadores a medir.
+o delegar los procesos acordados. En ambos casos decide que requiere su
+aprobacion y tiene acceso a su panel de control.
+El contenido principal ocupa menos de 500 palabras por idioma. Los casos,
+el perfil del fundador y el metodo de trabajo tienen limites propios.
+Los casos distinguen entregables de indicadores a medir.
 La consultoria generica, Palantir y Forward Deployed siguen fuera del recorrido.
 
 ## Estructura

@@ -112,8 +112,11 @@ p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height:
 .founder-copy { color: var(--ink-soft); }
 .founder-copy p:last-child { margin-bottom: 0; }
 .implementation .section-heading { margin: 0; }
-.implementation-copy { align-self: center; color: var(--ink-soft); }
-.implementation-copy p:last-child { margin: 0; }
+.implementation-copy { color: var(--ink-soft); }
+.implementation-detail { padding-block: 20px; border-top: 1px solid var(--line); }
+.implementation-detail:last-child { padding-bottom: 0; }
+.implementation-detail h3 { margin-bottom: 8px; color: var(--ink); font-family: var(--body); font-size: 1rem; font-weight: 600; text-wrap: pretty; }
+.implementation-detail p { margin: 0; }
 .contact-inner { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); gap: 70px; align-items: center; }
 .contact h2 { margin-bottom: 28px; }
 .contact p:not(.kicker) { max-width: 620px; color: #d6d3d1; }
