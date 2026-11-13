@@ -21,7 +21,6 @@
   --accent: #b93826;
   --display: "Cinzel", Georgia, serif;
   --body: "Montserrat", Arial, sans-serif;
-  --reading: "Courier New", Courier, monospace;
   --page: min(calc(100% - 96px), 1240px);
   color: var(--ink);
   background: var(--canvas);
@@ -37,9 +36,9 @@ a { color: inherit; text-underline-offset: 5px; }
 button { color: inherit; font: inherit; }
 a, button { -webkit-tap-highlight-color: transparent; }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 400; letter-spacing: 0; text-wrap: balance; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 400; letter-spacing: 0; text-wrap: balance; }
 h1 em, h2 em { color: var(--accent); font-style: normal; }
-p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height: 1.7; }
+p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
 .skip-link { position: fixed; z-index: 200; top: 12px; left: 12px; padding: 12px; transform: translateY(-160%); background: var(--ink); color: white; }
 .skip-link:focus { transform: none; }
 .site-header { position: sticky; z-index: 100; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 30px; min-height: 82px; padding: 16px max(48px, calc((100vw - 1240px) / 2)); border-bottom: 1px solid var(--line); background: var(--canvas); }
@@ -94,9 +93,8 @@ p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height:
 .letter-list > li::marker { color: var(--accent); }
 .letter-list h3, .letter-chapter h4 {
   margin: 0 0 5px;
-  font-family: var(--body);
   font-size: 1rem;
-  font-weight: 650;
+  font-weight: 500;
   line-height: 1.4;
   text-wrap: pretty;
 }

@@ -53,7 +53,7 @@ for (const page of Object.values(pages)) {
   assert(html.includes('href="' + page.casesUrl + '"'), prefix + "case navigation");
   const founderSection = chapter("founder-title");
   assert(html.includes('href="' + page.founderUrl + '"'), prefix + "founder navigation");
-  assert(founderSection.includes('Tomas A. Pessino.'), prefix + "approved founder name");
+  assert(/<p>[^<]*Tomas A\. Pessino,/.test(founderSection), prefix + "approved founder name in the introduction");
   assert(founderSection.includes(page.lang === "es" ? "<strong>Más de 100</strong> operaciones inmobiliarias gestionadas" : "<strong>More than 100</strong> property transactions handled"), prefix + "transactions, not implementations");
   assert(!/<img\b|linkedin\.com/i.test(founderSection), prefix + "no founder photo or LinkedIn");
   const implementation = chapter("implementation-title");

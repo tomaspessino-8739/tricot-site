@@ -37,7 +37,7 @@ La consultoria generica, Palantir y Forward Deployed siguen fuera del recorrido.
 - Una foto editorial existente y los tres iconos originales de aplicaciones:
   ave dorada para colaboradores, roja para reservas y azul para propietarios.
   Se conserva el logotipo original en cabecera y pie.
-- Tipografia local existente: Cinzel, Courier New y Montserrat.
+- Tipografia local: Cinzel para titulares y Montserrat para el resto del texto.
 - Contacto provisional confirmado por el propietario: `info@tricot.com`.
   Buzon aun no creado: se muestra en preparacion, sin `mailto:`, formulario,
   recogida de datos ni simulacion de envio.
