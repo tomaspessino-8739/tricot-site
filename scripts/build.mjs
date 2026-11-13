@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -7,6 +8,8 @@ import { renderNotFound } from "../src/not-found.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const layout = await readFile(resolve(root, "src/layout.html"), "utf8");
+const styles = await readFile(resolve(root, "styles.css"));
+const styleVersion = createHash("sha256").update(styles).digest("hex").slice(0, 12);
 const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
 function render(template, values) {
@@ -29,6 +32,7 @@ for (const page of Object.values(pages)) {
   const html = render(layout, {
     LANG: page.lang, ROBOTS: robotsDirective(page.canonical), DESCRIPTION: escape(page.description),
     TITLE: escape(page.title), CANONICAL: page.canonical, OG_LOCALE: page.ogLocale,
+    STYLE_VERSION: styleVersion,
     JSON_LD: JSON.stringify(entityGraph(page)).replaceAll("</script", "<\\/script"),
     SKIP_LINK: page.skipLink, BRAND_LABEL: page.brandLabel, HOME_URL: page.homeUrl,
     MENU_LABEL: page.menuLabel, NAV_LABEL: page.navLabel, NAV_SERVICES: page.navServices, NAV_CASES: page.navCases,

@@ -77,7 +77,7 @@ for (const page of Object.values(pages)) {
     for (const id of match[1].split(" ")) assert(ids.includes(id), prefix + "target " + id);
   }
   const images = [...html.matchAll(/<img\b[^>]*>/g)].map((match) => match[0]);
-  assert.equal(images.length, 6, prefix + "two brand logos, three app icons and one editorial photo");
+  assert.equal(images.length, 9, prefix + "two brand logos, three app icons and four editorial photos");
   assert.equal(images.filter((image) => image.includes('src="/assets/brand/tricot-wordmark-600.webp"') && image.includes('alt="TRICOT"')).length, 2, prefix + "original logo in header and footer");
   const mainHtml = html.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
   const applications = [...mainHtml.matchAll(/<article class="application"[^>]*>([\s\S]*?)<\/article>/g)].map((match) => match[1]);
@@ -86,7 +86,10 @@ for (const page of Object.values(pages)) {
     assert.equal((applications[index].match(/<img\b/g) || []).length, 1, prefix + name + ": one identity icon");
     assert(applications[index].includes(expectedIcon), prefix + name + ": correct app identity");
   }
-  assert.equal((mainHtml.match(/<img\b/g) || []).length, 4, prefix + "three app icons and an editorial photo");
+  const photos = [...mainHtml.matchAll(/<figure class="letter-photo">\s*<img src="([^"]+)"/g)].map(match => match[1]);
+  assert.equal(photos.length, 4, prefix + "four editorial photos");
+  assert.equal(new Set(photos).size, photos.length, prefix + "distinct editorial photos");
+  assert.equal((mainHtml.match(/<img\b/g) || []).length, 7, prefix + "three app icons and four editorial photos");
   assert(chapter("story-title").includes('src="/assets/images/tricot-hero-property-720.webp"'), prefix + "existing editorial photograph");
   assert(!/<picture\b|<video\b|<svg\b/.test(mainHtml), prefix + "no other content media");
   assert(!/og:image|twitter:image/.test(html), prefix + "no inherited social image");

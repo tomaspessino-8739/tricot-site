@@ -55,7 +55,12 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
 .kicker { margin: 0 0 26px; }
 .button { display: inline-flex; min-height: 50px; align-items: center; justify-content: space-between; gap: 26px; padding: 15px 20px; border: 1px solid var(--ink); border-radius: 0; background: var(--ink); color: white; font-family: var(--body); font-size: .67rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: background-color .18s; }
 .button:hover { background: var(--accent); border-color: var(--accent); }
-.sales-letter { width: min(var(--page), 680px); margin-inline: auto; }
+.sales-letter {
+  width: calc(100% - clamp(36px, 10vw, 112px));
+  max-width: 680px;
+  margin-inline: auto;
+  text-align: left;
+}
 .letter-chapter { padding-block: clamp(46px, 6vw, 72px); border-bottom: 1px solid var(--line); }
 .letter-hero { padding-top: clamp(58px, 8vw, 108px); }
 .letter-hero .kicker { margin-bottom: 24px; }
@@ -86,8 +91,13 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
 .letter-link, .source-link { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; }
 .letter-link { color: var(--ink); font-size: .8rem; font-weight: 650; }
 .letter-link:hover, .source-link:hover { color: var(--accent); }
-.letter-photo { max-width: 510px; margin: 26px auto 0; }
-.letter-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 70%; }
+.letter-photo {
+  width: 88%;
+  max-width: 460px;
+  aspect-ratio: 1;
+  margin: clamp(30px, 5vw, 48px) auto 0;
+}
+.letter-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 72%; }
 .letter-list { padding-left: 1.35rem; margin: 0; }
 .letter-list > li { padding-left: .4rem; margin-block: 0 20px; }
 .letter-list > li::marker { color: var(--accent); }

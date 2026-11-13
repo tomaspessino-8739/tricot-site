@@ -34,7 +34,7 @@ La consultoria generica, Palantir y Forward Deployed siguen fuera del recorrido.
 - Dieciocho rutas anteriores llevan a la seccion equivalente de la portada.
   Son redirecciones estaticas con canonical, meta refresh y enlace de respaldo,
   no respuestas HTTP 301. JavaScript conserva los parametros de consulta.
-- Una foto editorial existente y los tres iconos originales de aplicaciones:
+- Cuatro fotos editoriales cuadradas y los tres iconos originales de aplicaciones:
   ave dorada para colaboradores, roja para reservas y azul para propietarios.
   Se conserva el logotipo original en cabecera y pie.
 - Tipografia local: Cinzel para titulares y Montserrat para el resto del texto.
