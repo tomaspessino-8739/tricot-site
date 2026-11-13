@@ -34,49 +34,50 @@ for (const page of Object.values(pages)) {
   titles.add(title);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, prefix + "one H1");
   assert.equal((html.match(/<article class="application"/g) || []).length, 3, prefix + "three applications");
-  assert.equal((html.match(/<section\b/g) || []).length, 8, prefix + "concise structure");
-  const heroTitle = html.match(/<h1 id="hero-title">([^\n]+)<\/h1>/)?.[1].replace(/<[^>]+>/g, "");
+  const chapters = [...html.matchAll(/<section class="[^"]*letter-chapter"[^>]*aria-labelledby="([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(chapters, ["hero-title", "story-title", "connection-title", "founder-title", "services-title", "implementation-title", "contact-title"], prefix + "sales-letter chapter order");
   const expectedOffer = page.lang === "es" ? "Consultora PropTech para gestoras de alquiler vacacional" : "PropTech consultancy for holiday rental operators";
-  assert.equal(heroTitle, expectedOffer, prefix + "approved positioning");
+  assert(html.includes('<p class="kicker">' + expectedOffer + '</p>'), prefix + "approved positioning in the hero");
   assert.equal(title, "TRICOT — " + expectedOffer, prefix + "positioning in metadata");
-  const services = html.match(/<ol class="service-list">([\s\S]*?)<\/ol>/)?.[1] ?? "";
+  const services = html.match(/<ul class="letter-list">([\s\S]*?)<\/ul>/)?.[1] ?? "";
   const serviceHeadings = [...services.matchAll(/<h3>([^<]+)<\/h3>/g)].map(match => match[1]);
   assert.deepEqual(serviceHeadings, page.lang === "es"
     ? ["Software a medida", "Automatizaciones", "Agente de WhatsApp", "Gestión operativa delegada"]
     : ["Tailored software", "Workflow automation", "WhatsApp agent", "Managed back-office operations"], prefix + "four services");
-  const example = html.match(/<section class="connection section-dark"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
-  assert(example.includes(page.lang === "es" ? "Ejemplo de uso · WhatsApp" : "Example workflow · WhatsApp"), prefix + "illustrative workflow");
-  assert(example.includes(page.lang === "es" ? "Una persona valida." : "A person reviews."), prefix + "human confirmation");
+  const chapter = (name) => html.match(new RegExp('<section[^>]*aria-labelledby="' + name + '"[^>]*>([\\s\\S]*?)<\\/section>'))?.[1] ?? "";
+  assert(chapter("story-title").includes('href="https://news.airbnb.com/instant-book-updates"'), prefix + "external story cites its primary source");
+  const example = chapter("connection-title");
+  assert(example.includes(page.lang === "es" ? "Ejemplo de uso del agente de WhatsApp." : "An example of the WhatsApp agent in use."), prefix + "illustrative workflow");
+  assert(example.includes(page.lang === "es" ? "una persona lo revisa y decide si confirma" : "a person checks it and decides whether to confirm"), prefix + "human confirmation");
   assert(html.includes('rel="icon" href="/assets/brand/favicon-t.svg"'), prefix + "TRICOT T favicon retained");
-  const caseSection = html.match(/<section class="section cases"[^>]*>([\s\S]*?)<\/section>/);
-  assert(caseSection && html.indexOf('class="section services"') < caseSection.index && caseSection.index < html.indexOf('class="connection section-dark"'), prefix + "cases directly after services");
   assert(html.includes('href="' + page.casesUrl + '"'), prefix + "case navigation");
-  const founderSection = html.match(/<section class="founder section"[^>]*>([\s\S]*?)<\/section>/);
-  assert(founderSection && caseSection.index < founderSection.index && founderSection.index < html.indexOf('class="connection section-dark"'), prefix + "founder follows cases");
+  const founderSection = chapter("founder-title");
   assert(html.includes('href="' + page.founderUrl + '"'), prefix + "founder navigation");
-  assert(founderSection[1].includes('<h2 id="founder-title">Tomas A. Pessino</h2>'), prefix + "approved founder name");
-  assert(founderSection[1].includes(page.lang === "es" ? "<strong>Más de 100</strong> operaciones inmobiliarias gestionadas" : "<strong>More than 100</strong> property transactions handled"), prefix + "transactions, not implementations");
-  assert(!/<img\b|linkedin\.com/i.test(founderSection[1]), prefix + "no founder photo or LinkedIn");
-  const implementation = html.match(/<section class="implementation section"[^>]*>[\s\S]*?<\/section>/)?.[0] ?? "";
+  assert(founderSection.includes('Tomas A. Pessino.'), prefix + "approved founder name");
+  assert(founderSection.includes(page.lang === "es" ? "<strong>Más de 100</strong> operaciones inmobiliarias gestionadas" : "<strong>More than 100</strong> property transactions handled"), prefix + "transactions, not implementations");
+  assert(!/<img\b|linkedin\.com/i.test(founderSection), prefix + "no founder photo or LinkedIn");
+  const implementation = chapter("implementation-title");
   const implementationTitle = page.lang === "es" ? "Delega tareas, no el control." : "Delegate tasks, not control.";
   const dashboardAccess = page.lang === "es"
     ? "En ambas modalidades <strong>siempre tienes acceso a tu panel de control</strong>"
     : "Either way, <strong>you always have access to your dashboard</strong>";
   assert(implementation.includes('<h2 id="implementation-title">' + implementationTitle + '</h2>'), prefix + "approved implementation headline");
   assert(implementation.includes(dashboardAccess), prefix + "dashboard access in both operating modes");
-  const cases = [...caseSection[1].matchAll(/<article class="case-study"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
-  assert.deepEqual(cases.map(fragment => fragment.match(/<h3[^>]*>([^<]+)<\/h3>/)?.[1]), [
-    "EB Capital Consulting", "Lone Wolf LLC", "Aguamadera Ibiza", "Infinity 8 Real Estate", "OPAL Investments"
+  assert.equal((implementation.match(/<summary>/g) || []).length, 3, prefix + "frequently asked questions");
+  assert(chapter("contact-title").includes('class="letter-postscript"'), prefix + "closing postscript");
+  const cases = [...chapter("services-title").matchAll(/<article class="case-study"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
+  assert.deepEqual(cases.map(fragment => fragment.match(/<h4[^>]*>([^<]+)<\/h4>/)?.[1]), [
+    "Infinity 8 Real Estate", "EB Capital Consulting", "Lone Wolf LLC", "Aguamadera Ibiza", "OPAL Investments"
   ], prefix + "five approved cases");
-  assert(cases.every(fragment => fragment.includes('class="case-measure"') && !/\b\d+\s*%/.test(fragment)), prefix + "measurements not presented as results");
-  assert(cases[2].includes("channel manager") && cases[2].includes(page.lang === "es" ? "no ejecutamos la integración" : "we did not carry out the integration"), prefix + "hotel advisory scope");
+  assert(cases.every(fragment => !/\b\d+\s*%/.test(fragment)), prefix + "no unsupported case percentages");
+  assert(cases[3].includes("channel manager") && cases[3].includes(page.lang === "es" ? "Asesoramos al hotel" : "We advised the hotel"), prefix + "hotel advisory scope");
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(ids.length, new Set(ids).size, prefix + "unique IDs");
   for (const match of html.matchAll(/(?:href="#|aria-labelledby="|aria-controls=")([^"]+)"/g)) {
     for (const id of match[1].split(" ")) assert(ids.includes(id), prefix + "target " + id);
   }
   const images = [...html.matchAll(/<img\b[^>]*>/g)].map((match) => match[0]);
-  assert.equal(images.length, 5, prefix + "two brand logos and three app icons");
+  assert.equal(images.length, 6, prefix + "two brand logos, three app icons and one editorial photo");
   assert.equal(images.filter((image) => image.includes('src="/assets/brand/tricot-wordmark-600.webp"') && image.includes('alt="TRICOT"')).length, 2, prefix + "original logo in header and footer");
   const mainHtml = html.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
   const applications = [...mainHtml.matchAll(/<article class="application"[^>]*>([\s\S]*?)<\/article>/g)].map((match) => match[1]);
@@ -84,16 +85,15 @@ for (const page of Object.values(pages)) {
     const expectedIcon = 'src="/assets/brand/apps/' + name + '.png"';
     assert.equal((applications[index].match(/<img\b/g) || []).length, 1, prefix + name + ": one identity icon");
     assert(applications[index].includes(expectedIcon), prefix + name + ": correct app identity");
-    const outcome = applications[index].match(/<p class="outcome">([^<]+)<\/p>/)?.[1];
-    assert(outcome && outcome.endsWith(".") && (outcome.match(/[.!?]/g) || []).length === 1, prefix + name + ": one clear closing sentence");
   }
-  assert.equal((mainHtml.match(/<img\b/g) || []).length, 3, prefix + "only the three authorised app icons in content");
+  assert.equal((mainHtml.match(/<img\b/g) || []).length, 4, prefix + "three app icons and an editorial photo");
+  assert(chapter("story-title").includes('src="/assets/images/tricot-hero-property-720.webp"'), prefix + "existing editorial photograph");
   assert(!/<picture\b|<video\b|<svg\b/.test(mainHtml), prefix + "no other content media");
   assert(!/og:image|twitter:image/.test(html), prefix + "no inherited social image");
   assert(!/{{[A-Z_]+}}/.test(html), prefix + "rendered template");
   assert(!/<form\b|<input\b|<textarea\b|data-contact-form|localStorage/.test(html), prefix + "no inactive capture form");
   assert(!/Forward Deployed|Palantir|idempotencia|fallback|roadmap|gate crítico|\bleads\b/.test(html), prefix + "plain language");
-  assert(!/\bPMS\b/.test(html.replace(cases[2], "")), prefix + "PMS only in the explained hotel case");
+  assert(!/\bPMS\b/.test(mainHtml), prefix + "plain language for booking software");
   if (!contact.active) assert(!/href="mailto:/.test(html), prefix + "no unverified email action");
   const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
   assert(graph["@graph"].some((item) => item["@type"] === "Organization"), prefix + "organization schema");
@@ -104,10 +104,7 @@ for (const page of Object.values(pages)) {
     else await access(resolve(root, target.slice(1)));
   }
   const words = (content) => content.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
-  assert(words(mainHtml.replace(caseSection[0], "").replace(founderSection[0], "").replace(implementation, "")) < 500, prefix + "core landing stays concise");
-  assert(words(caseSection[0]) < 520, prefix + "case studies stay concise");
-  assert(words(founderSection[0]) < 240, prefix + "founder bio stays concise");
-  assert(words(implementation) < 240, prefix + "working model stays concise");
+  assert(words(mainHtml) < 1150, prefix + "the sales letter stays concise across all seven chapters");
   console.log(page.output + ": content, metadata, links and media verified (" + words(mainHtml) + " words)");
 }
 for (const [route, target] of legacyRoutes) {

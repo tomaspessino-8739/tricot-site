@@ -21,24 +21,22 @@ TRICOT parte de como trabaja cada empresa. Puede adaptar herramientas
 propias o conectar las del cliente. La empresa puede operar con su equipo
 o delegar los procesos acordados. En ambos casos decide que requiere su
 aprobacion y tiene acceso a su panel de control.
-El contenido principal ocupa menos de 500 palabras por idioma. Los casos,
-el perfil del fundador y el metodo de trabajo tienen limites propios.
-Los casos distinguen entregables de indicadores a medir.
+La carta de ventas presenta la oferta con la historia de una reserva.
+Infinity 8 es el caso principal y los otros cuatro se pueden desplegar.
 La consultoria generica, Palantir y Forward Deployed siguen fuera del recorrido.
 
 ## Estructura
 
 - Dos paginas comerciales activas: castellano `/` e ingles `/en/`.
-- Ocho secciones: presentacion, servicios, casos reales, fundador, ejemplo
-  de WhatsApp, herramientas propias, como trabajamos y contacto.
+- Siete secciones: promesa, historia externa, ejemplo de WhatsApp, fundador,
+  servicios con herramientas y casos, como trabajamos con preguntas frecuentes,
+  y contacto con posdata.
 - Dieciocho rutas anteriores llevan a la seccion equivalente de la portada.
   Son redirecciones estaticas con canonical, meta refresh y enlace de respaldo,
   no respuestas HTTP 301. JavaScript conserva los parametros de consulta.
-- Sin fotos, videos, capturas, demos, huecos de imagen ni imagen social heredada.
-  El logotipo original aprobado se conserva en cabecera y pie, sin sustituirlo
-  por texto. Se incorporan solo los tres iconos originales de aplicaciones
-  autorizados: ave dorada para colaboradores, roja para reservas y azul para
-  propietarios. No se editan ni se usan como identidad global de TRICOT.
+- Una foto editorial existente y los tres iconos originales de aplicaciones:
+  ave dorada para colaboradores, roja para reservas y azul para propietarios.
+  Se conserva el logotipo original en cabecera y pie.
 - Tipografia local existente: Cinzel, Courier New y Montserrat.
 - Contacto provisional confirmado por el propietario: `info@tricot.com`.
   Buzon aun no creado: se muestra en preparacion, sin `mailto:`, formulario,
@@ -59,8 +57,8 @@ python3 -m http.server 4181 --bind 127.0.0.1
 `src/site-data.mjs` define metadatos, contacto y rutas anteriores.
 `scripts/build.mjs` genera HTML, rutas anteriores, robots, sitemap y 404.
 `scripts/verify-site.mjs` verifica enlaces, idiomas, metadatos, datos
-estructurados, extension del contenido, logotipo original, identidad y bytes
-de los tres iconos aprobados, ausencia de otras imagenes y estado del contacto.
+estructurados, orden y extension de la carta, logotipo original, identidad y
+bytes de los tres iconos aprobados, foto editorial y estado del contacto.
 
 La migracion de dominio permanece documentada en `docs/DOMAIN_MIGRATION.md`.
-La revision actual y el rollback se documentan en `docs/CONTENT_SIMPLIFICATION.md`.
+La version anterior y su rollback se documentan en `docs/CONTENT_SIMPLIFICATION.md`.
