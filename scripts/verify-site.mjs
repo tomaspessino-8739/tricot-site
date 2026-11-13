@@ -34,7 +34,20 @@ for (const page of Object.values(pages)) {
   titles.add(title);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, prefix + "one H1");
   assert.equal((html.match(/<article class="application"/g) || []).length, 3, prefix + "three applications");
-  assert.equal((html.match(/<section\b/g) || []).length, 5, prefix + "concise structure");
+  assert.equal((html.match(/<section\b/g) || []).length, 6, prefix + "concise structure");
+  const heroTitle = html.match(/<h1 id="hero-title">([^\n]+)<\/h1>/)?.[1].replace(/<[^>]+>/g, "");
+  const expectedOffer = page.lang === "es" ? "Consultora PropTech para gestoras de alquiler vacacional" : "PropTech consultancy for holiday rental operators";
+  assert.equal(heroTitle, expectedOffer, prefix + "approved positioning");
+  assert.equal(title, "TRICOT — " + expectedOffer, prefix + "positioning in metadata");
+  const services = html.match(/<ol class="service-list">([\s\S]*?)<\/ol>/)?.[1] ?? "";
+  const serviceHeadings = [...services.matchAll(/<h3>([^<]+)<\/h3>/g)].map(match => match[1]);
+  assert.deepEqual(serviceHeadings, page.lang === "es"
+    ? ["Software a medida", "Automatizaciones", "Agente de WhatsApp", "Gestión operativa delegada"]
+    : ["Tailored software", "Workflow automation", "WhatsApp agent", "Managed back-office operations"], prefix + "four services");
+  const example = html.match(/<section class="connection section-dark"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+  assert(example.includes(page.lang === "es" ? "Ejemplo de uso · WhatsApp" : "Example workflow · WhatsApp"), prefix + "illustrative workflow");
+  assert(example.includes(page.lang === "es" ? "Una persona valida." : "A person reviews."), prefix + "human confirmation");
+  assert(html.includes('rel="icon" href="/assets/brand/favicon-t.svg"'), prefix + "TRICOT T favicon retained");
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(ids.length, new Set(ids).size, prefix + "unique IDs");
   for (const match of html.matchAll(/(?:href="#|aria-labelledby="|aria-controls=")([^"]+)"/g)) {

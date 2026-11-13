@@ -3,26 +3,31 @@
 Fuente tecnica canonica de [untricot.com](https://untricot.com/).
 GitHub Pages publica la rama `main` desde la raiz del repositorio.
 
-## Oferta vigente desde 2026-10-31
+## Oferta vigente
 
-Tres aplicaciones para empresas de alquiler turistico:
+TRICOT se presenta como consultora PropTech para gestoras de alquiler
+vacacional. La oferta incluye software a medida, automatizaciones, agente
+de WhatsApp y gestion operativa delegada de los procesos acordados.
+El ejemplo de WhatsApp ilustra un flujo con revision humana, no una
+integracion activa en la web ni una promesa de confirmacion autonoma.
+
+Las tres herramientas propias se muestran como ejemplos de software:
 
 1. Catalogo para colaboradores: propiedades, disponibilidad, precios, contenido y solicitudes.
 2. Gestion de propiedades y reservas: contactos, documentos, calendario, reparto economico, cobros, pagos y exportacion para contabilidad.
 3. Portal privado de propietarios: reservas, importes cobrados, parte correspondiente, pagos recibidos y pendientes.
 
-TRICOT observa como trabaja cada empresa, adapta las aplicaciones con ella,
-identifica tareas repetitivas que conviene automatizar y acompana al equipo.
-El servicio incluye la incorporacion de un asistente de IA conectado a las
-aplicaciones para consultas y acciones autorizadas. Se comunica como parte de
-la implantacion acordada, no como una cuarta aplicacion lista para todo uso.
+TRICOT parte de como trabaja cada empresa. Puede adaptar herramientas
+propias o conectar las del cliente. La empresa puede operar con su equipo
+o delegar los procesos acordados, con responsabilidades concretas.
 La portada comunica esta oferta en menos de 500 palabras por idioma.
 La consultoria generica, Palantir y Forward Deployed siguen fuera del recorrido.
 
 ## Estructura
 
 - Dos paginas comerciales activas: castellano `/` e ingles `/en/`.
-- Cinco secciones: presentacion, aplicaciones, recorrido compartido, como trabajamos y contacto.
+- Seis secciones: presentacion, servicios, ejemplo de WhatsApp, herramientas
+  propias, como trabajamos y contacto.
 - Dieciocho rutas anteriores llevan a la seccion equivalente de la portada.
   Son redirecciones estaticas con canonical, meta refresh y enlace de respaldo,
   no respuestas HTTP 301. JavaScript conserva los parametros de consulta.

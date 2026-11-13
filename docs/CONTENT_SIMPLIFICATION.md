@@ -107,3 +107,20 @@ QA de esta revision:
 - Lectura de aplicaciones y metodologia sin JavaScript: PASS.
 - Sin formulario, enlace de correo activo ni cambios de indexacion.
 - Capturas de escritorio y movil revisadas fuera de Drive y del repositorio.
+
+## Posicionamiento PropTech
+
+La nueva portada presenta a TRICOT como consultora PropTech para gestoras
+de alquiler vacacional. Software a medida, automatizaciones, agente de
+WhatsApp y gestion operativa delegada sustituyen a las tres aplicaciones
+como entrada comercial. Las aplicaciones siguen visibles con sus iconos
+originales, como ejemplos de software propio.
+
+El ejemplo de WhatsApp es ilustrativo: el agente consulta el estado de una
+reserva y una persona revisa el justificante y decide si confirma. El cliente
+puede operar con su equipo o delegar solo procesos acordados en TRICOT.
+
+Se conservan favicon, logotipo, 18 redirecciones, indexacion y contacto
+inactivo. QA: verificacion estatica y Chrome a 320, 390, 768 y 1440 px en ES
+y EN; menu movil por teclado y tacto, anclas y lectura sin JS. El rollback
+acotado consiste en revertir el commit de esta revision.
