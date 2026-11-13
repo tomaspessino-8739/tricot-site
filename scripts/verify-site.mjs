@@ -34,7 +34,7 @@ for (const page of Object.values(pages)) {
   titles.add(title);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, prefix + "one H1");
   assert.equal((html.match(/<article class="application"/g) || []).length, 3, prefix + "three applications");
-  assert.equal((html.match(/<section\b/g) || []).length, 6, prefix + "concise structure");
+  assert.equal((html.match(/<section\b/g) || []).length, 7, prefix + "concise structure");
   const heroTitle = html.match(/<h1 id="hero-title">([^\n]+)<\/h1>/)?.[1].replace(/<[^>]+>/g, "");
   const expectedOffer = page.lang === "es" ? "Consultora PropTech para gestoras de alquiler vacacional" : "PropTech consultancy for holiday rental operators";
   assert.equal(heroTitle, expectedOffer, prefix + "approved positioning");
@@ -48,6 +48,15 @@ for (const page of Object.values(pages)) {
   assert(example.includes(page.lang === "es" ? "Ejemplo de uso · WhatsApp" : "Example workflow · WhatsApp"), prefix + "illustrative workflow");
   assert(example.includes(page.lang === "es" ? "Una persona valida." : "A person reviews."), prefix + "human confirmation");
   assert(html.includes('rel="icon" href="/assets/brand/favicon-t.svg"'), prefix + "TRICOT T favicon retained");
+  const caseSection = html.match(/<section class="section cases"[^>]*>([\s\S]*?)<\/section>/);
+  assert(caseSection && html.indexOf('class="section services"') < caseSection.index && caseSection.index < html.indexOf('class="connection section-dark"'), prefix + "cases directly after services");
+  assert(html.includes('href="' + page.casesUrl + '"'), prefix + "case navigation");
+  const cases = [...caseSection[1].matchAll(/<article class="case-study"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
+  assert.deepEqual(cases.map(fragment => fragment.match(/<h3[^>]*>([^<]+)<\/h3>/)?.[1]), [
+    "EB Capital Consulting", "Lone Wolf LLC", "Aguamadera Ibiza", "Infinity 8 Real Estate", "OPAL Investments"
+  ], prefix + "five approved cases");
+  assert(cases.every(fragment => fragment.includes('class="case-measure"') && !/\b\d+\s*%/.test(fragment)), prefix + "measurements not presented as results");
+  assert(cases[2].includes("channel manager") && cases[2].includes(page.lang === "es" ? "no ejecutamos la integración" : "we did not carry out the integration"), prefix + "hotel advisory scope");
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(ids.length, new Set(ids).size, prefix + "unique IDs");
   for (const match of html.matchAll(/(?:href="#|aria-labelledby="|aria-controls=")([^"]+)"/g)) {
@@ -70,7 +79,8 @@ for (const page of Object.values(pages)) {
   assert(!/og:image|twitter:image/.test(html), prefix + "no inherited social image");
   assert(!/{{[A-Z_]+}}/.test(html), prefix + "rendered template");
   assert(!/<form\b|<input\b|<textarea\b|data-contact-form|localStorage/.test(html), prefix + "no inactive capture form");
-  assert(!/Forward Deployed|Palantir|idempotencia|fallback|roadmap|gate crítico|\bPMS\b|\bleads\b/.test(html), prefix + "plain language");
+  assert(!/Forward Deployed|Palantir|idempotencia|fallback|roadmap|gate crítico|\bleads\b/.test(html), prefix + "plain language");
+  assert(!/\bPMS\b/.test(html.replace(cases[2], "")), prefix + "PMS only in the explained hotel case");
   if (!contact.active) assert(!/href="mailto:/.test(html), prefix + "no unverified email action");
   const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
   assert(graph["@graph"].some((item) => item["@type"] === "Organization"), prefix + "organization schema");
@@ -80,10 +90,10 @@ for (const page of Object.values(pages)) {
     if (target.endsWith("/")) assert(Object.values(pages).some((record) => new URL(record.canonical).pathname === target), prefix + "active internal route " + target);
     else await access(resolve(root, target.slice(1)));
   }
-  const main = html.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]+>/g, " ");
-  const words = main.trim().split(/\s+/).length;
-  assert(words < 500, prefix + "content is too long: " + words);
-  console.log(page.output + ": content, metadata, links and media verified (" + words + " words)");
+  const words = (content) => content.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
+  assert(words(mainHtml.replace(caseSection[0], "")) < 500, prefix + "core landing stays concise");
+  assert(words(caseSection[0]) < 520, prefix + "case studies stay concise");
+  console.log(page.output + ": content, metadata, links and media verified (" + words(mainHtml) + " words)");
 }
 for (const [route, target] of legacyRoutes) {
   const html = await read(route + "/index.html");

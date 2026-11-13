@@ -20,14 +20,15 @@ Las tres herramientas propias se muestran como ejemplos de software:
 TRICOT parte de como trabaja cada empresa. Puede adaptar herramientas
 propias o conectar las del cliente. La empresa puede operar con su equipo
 o delegar los procesos acordados, con responsabilidades concretas.
-La portada comunica esta oferta en menos de 500 palabras por idioma.
+El contenido principal, excluidos los casos, ocupa menos de 500 palabras
+por idioma. Los casos distinguen entregables de indicadores a medir.
 La consultoria generica, Palantir y Forward Deployed siguen fuera del recorrido.
 
 ## Estructura
 
 - Dos paginas comerciales activas: castellano `/` e ingles `/en/`.
-- Seis secciones: presentacion, servicios, ejemplo de WhatsApp, herramientas
-  propias, como trabajamos y contacto.
+- Siete secciones: presentacion, servicios, casos reales, ejemplo de WhatsApp,
+  herramientas propias, como trabajamos y contacto.
 - Dieciocho rutas anteriores llevan a la seccion equivalente de la portada.
   Son redirecciones estaticas con canonical, meta refresh y enlace de respaldo,
   no respuestas HTTP 301. JavaScript conserva los parametros de consulta.

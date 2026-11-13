@@ -77,6 +77,12 @@ p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height:
 .service-list li:nth-child(even) { padding-right: 0; padding-left: 36px; border-left: 1px solid var(--line); }
 .service-list h3 { margin: 16px 0 12px; font-size: clamp(1.4rem,2.35vw,2.15rem); line-height: 1.25; text-wrap: pretty; }
 .service-list p { max-width: 56ch; margin-bottom: 0; color: var(--ink-soft); }
+.case-study { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); gap: clamp(28px,6vw,84px); padding-block: 34px; border-top: 1px solid var(--line); }
+.case-study:last-child { border-bottom: 1px solid var(--line); }
+.case-heading .kicker { margin-bottom: 14px; }
+.case-heading h3 { font-size: clamp(1.5rem,2.45vw,2.3rem); line-height: 1.2; }
+.case-copy p { color: var(--ink-soft); }
+.case-copy .case-measure { margin: 0; font-family: var(--body); font-size: .84rem; color: var(--ink); }
 .applications { padding-bottom: 72px; }
 .application { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(40px,8vw,115px); padding-block: 44px; border-top: 1px solid var(--line); scroll-margin-top: 100px; }
 .application:last-child { border-bottom: 1px solid var(--line); }
@@ -147,6 +153,7 @@ p { margin: 0 0 20px; font-family: var(--reading); font-size: 1rem; line-height:
   .hero-index a:nth-child(n+3) { border-top: 1px solid var(--line); }
   .service-list { grid-template-columns: 1fr; }
   .service-list li, .service-list li:nth-child(even) { padding: 24px 0; border-left: 0; }
+  .case-study { grid-template-columns: 1fr; gap: 16px; padding-block: 24px; }
   .section-heading { margin-bottom: 34px; }
   .application, .implementation { grid-template-columns: 1fr; gap: 26px; }
   .application { padding-block: 34px; }

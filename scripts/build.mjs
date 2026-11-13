@@ -31,9 +31,9 @@ for (const page of Object.values(pages)) {
     TITLE: escape(page.title), CANONICAL: page.canonical, OG_LOCALE: page.ogLocale,
     JSON_LD: JSON.stringify(entityGraph(page)).replaceAll("</script", "<\\/script"),
     SKIP_LINK: page.skipLink, BRAND_LABEL: page.brandLabel, HOME_URL: page.homeUrl,
-    MENU_LABEL: page.menuLabel, NAV_LABEL: page.navLabel, NAV_SERVICES: page.navServices,
+    MENU_LABEL: page.menuLabel, NAV_LABEL: page.navLabel, NAV_SERVICES: page.navServices, NAV_CASES: page.navCases,
     NAV_APPLICATIONS: page.navApplications, NAV_IMPLEMENTATION: page.navImplementation, NAV_CONTACT: page.navContact,
-    SERVICES_URL: page.servicesUrl, APPLICATIONS_URL: page.applicationsUrl, IMPLEMENTATION_URL: page.implementationUrl,
+    SERVICES_URL: page.servicesUrl, CASES_URL: page.casesUrl, APPLICATIONS_URL: page.applicationsUrl, IMPLEMENTATION_URL: page.implementationUrl,
     LANGUAGE_URL: page.languageUrl, OTHER_LANG: page.otherLang, OTHER_LANG_UPPER: page.otherLang.toUpperCase(),
     LANGUAGE_LABEL: page.languageLabel, BODY: body, FOOTER_DESCRIPTOR: page.footerDescriptor, BACK_TO_TOP: page.backToTop
   });
