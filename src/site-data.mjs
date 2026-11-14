@@ -1,7 +1,7 @@
 export const origin = "https://untricot.com";
 
-// Contact remains a preview until its mailbox is created and verified.
-export const contact = { email: "info@tricot.com", active: false };
+// Set this when the email intake endpoint is ready to receive submissions.
+export const contact = { endpoint: "" };
 
 export const pages = {
   es: {
@@ -30,8 +30,9 @@ export const pages = {
     implementationUrl: "#puesta-en-marcha",
     footerDescriptor: "Consultora PropTech para gestoras de alquiler vacacional",
     backToTop: "Volver arriba ↑",
-    contactLabel: "Correo en preparación",
-    contactHint: "Pronto podrás escribirnos aquí."
+    contactLabel: "Tu email",
+    contactButton: "Quiero hablar",
+    contactHint: "El envío se activará cuando conectemos el formulario."
   },
   en: {
     lang: "en",
@@ -59,8 +60,9 @@ export const pages = {
     implementationUrl: "#getting-started",
     footerDescriptor: "PropTech consultancy for holiday rental operators",
     backToTop: "Back to top ↑",
-    contactLabel: "Email coming soon",
-    contactHint: "You will be able to contact us here soon."
+    contactLabel: "Your email",
+    contactButton: "Let’s talk",
+    contactHint: "You can send your email once the form is connected."
   }
 };
 

@@ -22,12 +22,14 @@ function render(template, values) {
 }
 
 for (const page of Object.values(pages)) {
-  const contactAddress = contact.email
-    ? '<span class="contact-email">' + escape(contact.email) + '</span>'
-    : "";
-  const contactAction = contact.active && contact.email
-    ? '<div class="contact-action"><a class="contact-email" href="mailto:' + escape(contact.email) + '">' + escape(contact.email) + '</a></div>'
-    : '<div class="contact-action"><span class="contact-label">' + page.contactLabel + '</span>' + contactAddress + '<small>' + page.contactHint + '</small></div>';
+  const contactDelivery = contact.endpoint ? ' action="' + escape(contact.endpoint) + '"' : "";
+  const contactAvailability = contact.endpoint ? "" : " disabled";
+  const contactHint = contact.endpoint ? "" : '<small>' + escape(page.contactHint) + '</small>';
+  const contactAction = '<form class="contact-action" method="post"' + contactDelivery + '>' +
+    '<label class="contact-label" for="contact-email">' + escape(page.contactLabel) + '</label>' +
+    '<div class="contact-fields"><input id="contact-email" name="email" type="email" autocomplete="email" required />' +
+    '<button class="button" type="submit"' + contactAvailability + '>' + escape(page.contactButton) + '</button></div>' +
+    contactHint + '</form>';
   const body = render(await readFile(resolve(root, "src/home." + page.lang + ".html"), "utf8"), { CONTACT_ACTION: contactAction });
   const html = render(layout, {
     LANG: page.lang, ROBOTS: robotsDirective(page.canonical), DESCRIPTION: escape(page.description),

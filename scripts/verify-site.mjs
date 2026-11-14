@@ -35,15 +35,19 @@ for (const page of Object.values(pages)) {
     ? ["Software a medida", "Automatizaciones", "Agente de WhatsApp", "Gestión operativa delegada"]
     : ["Tailored software", "Workflow automation", "WhatsApp agent", "Managed back-office operations"], prefix + "four services");
   const chapter = (name) => html.match(new RegExp('<section[^>]*aria-labelledby="' + name + '"[^>]*>([\\s\\S]*?)<\\/section>'))?.[1] ?? "";
-  assert(chapter("story-title").includes('href="https://news.airbnb.com/instant-book-updates"'), prefix + "external story cites its primary source");
+  assert(!chapter("story-title").includes('href="https://news.airbnb.com/instant-book-updates"'), prefix + "Airbnb story has no legacy source link");
   const example = chapter("connection-title");
-  assert(example.includes(page.lang === "es" ? "Ejemplo de uso del agente de WhatsApp." : "An example of the WhatsApp agent in use."), prefix + "illustrative workflow");
-  assert(example.includes(page.lang === "es" ? "una persona lo revisa y decide si confirma" : "a person checks it and decides whether to confirm"), prefix + "human confirmation");
+  assert(/<video\b[^>]*\bcontrols\b/.test(example), prefix + "partner portal video with playback controls");
+  const proposal = page.lang === "es"
+    ? "Revisas la propuesta y tu agente se encarga del resto"
+    : "You review the proposal and your agent takes care of the rest";
+  const walkthrough = example.split("<p>" + proposal + "</p>")[1] ?? "";
+  assert(/^\s*<video\b[^>]*\bcontrols\b[^>]*controlslist="nodownload"[^>]*>\s*<source src="\/assets\/videos\/tricot-cash-flow-whatsapp\.mp4"/.test(walkthrough), prefix + "Cash Flow video directly follows the proposal");
   assert(html.includes('rel="icon" href="/assets/brand/favicon-t.svg"'), prefix + "TRICOT T favicon retained");
   assert(html.includes('href="' + page.casesUrl + '"'), prefix + "case navigation");
   const founderSection = chapter("founder-title");
   assert(/<p>[^<]*Tomas A\. Pessino,/.test(founderSection), prefix + "approved founder name in the introduction");
-  assert(founderSection.includes(page.lang === "es" ? "<strong>Más de 100</strong> operaciones inmobiliarias gestionadas" : "<strong>More than 100</strong> property transactions handled"), prefix + "transactions, not implementations");
+  assert(founderSection.includes(page.lang === "es" ? "<strong>más de 100 operaciones inmobiliarias</strong>" : "<strong>more than 100 property transactions</strong>"), prefix + "transactions, not implementations");
   assert(!/<img\b|linkedin\.com/i.test(founderSection), prefix + "no founder photo or LinkedIn");
   const implementation = chapter("implementation-title");
   const implementationTitle = page.lang === "es" ? "Delega tareas, no el control." : "Delegate tasks, not control.";
@@ -52,10 +56,12 @@ for (const page of Object.values(pages)) {
     : "Either way, <strong>you always have access to your dashboard</strong>";
   assert(implementation.includes('<h2 id="implementation-title">' + implementationTitle + '</h2>'), prefix + "approved implementation headline");
   assert(implementation.includes(dashboardAccess), prefix + "dashboard access in both operating modes");
-  assert.equal((implementation.match(/<summary>/g) || []).length, 3, prefix + "frequently asked questions");
+  const faqId = page.lang === "es" ? "preguntas" : "questions";
+  const faq = implementation.split('id="' + faqId + '">')[1]?.split("</div>")[0] ?? "";
+  assert.equal((faq.match(/<summary>/g) || []).length, 10, prefix + "frequently asked questions");
   assert(chapter("contact-title").includes('class="letter-postscript"'), prefix + "closing postscript");
   const cases = [...chapter("services-title").matchAll(/<article class="case-study"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
-  assert.deepEqual(cases.map(fragment => fragment.match(/<h4[^>]*>([^<]+)<\/h4>/)?.[1]), [
+  assert.deepEqual(cases.map(fragment => fragment.match(/<h4[^>]*aria-label="([^"]+)"/)?.[1] ?? fragment.match(/<h4[^>]*>([^<]+)<\/h4>/)?.[1]), [
     "Infinity 8 Real Estate", "EB Capital Consulting", "Lone Wolf LLC", "Aguamadera Ibiza", "OPAL Investments"
   ], prefix + "five approved cases");
   assert(cases.every(fragment => !/\b\d+\s*%/.test(fragment)), prefix + "no unsupported case percentages");
@@ -66,30 +72,35 @@ for (const page of Object.values(pages)) {
     for (const id of match[1].split(" ")) assert(ids.includes(id), prefix + "target " + id);
   }
   const images = [...html.matchAll(/<img\b[^>]*>/g)].map((match) => match[0]);
-  assert.equal(images.length, 6, prefix + "two brand logos and four editorial photos");
+  assert.equal(images.length, 9, prefix + "two brand logos, three editorial photos and four case logos");
   assert.equal(images.filter((image) => image.includes('src="/assets/brand/tricot-wordmark-600.webp"') && image.includes('alt="TRICOT"')).length, 2, prefix + "original logo in header and footer");
   const mainHtml = html.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
   const photos = [...mainHtml.matchAll(/<figure class="letter-photo">\s*<img src="([^"]+)"/g)].map(match => match[1]);
-  assert.equal(photos.length, 4, prefix + "four editorial photos");
+  assert.equal(photos.length, 3, prefix + "three editorial photos");
   assert.equal(new Set(photos).size, photos.length, prefix + "distinct editorial photos");
-  assert.equal(photos[0], "/assets/images/villa-armonia-cover.webp", prefix + "Villa Armonía opens the photo sequence");
-  assert(!/<picture\b|<video\b|<svg\b/.test(mainHtml), prefix + "no other content media");
+  assert.equal((mainHtml.match(/<video\b/g) || []).length, 2, prefix + "two embedded videos");
+  assert(!/<picture\b|<svg\b/.test(mainHtml), prefix + "no other content media");
   assert(!/og:image|twitter:image/.test(html), prefix + "no inherited social image");
   assert(!/{{[A-Z_]+}}/.test(html), prefix + "rendered template");
-  assert(!/<form\b|<input\b|<textarea\b|data-contact-form|localStorage/.test(html), prefix + "no inactive capture form");
+  const contactForm = chapter("contact-title").match(/<form\b[^>]*>[\s\S]*?<\/form>/)?.[0] ?? "";
+  assert.equal((html.match(/<form\b/g) || []).length, 1, prefix + "one contact form");
+  assert.equal((contactForm.match(/<input\b/g) || []).length, 1, prefix + "contact asks only for email");
+  assert(/name="email" type="email"[^>]*\brequired\b/.test(contactForm), prefix + "email validation");
+  if (!contact.endpoint) assert(/<button\b[^>]*\bdisabled\b/.test(contactForm), prefix + "submission waits for endpoint");
   assert(!/Forward Deployed|Palantir|idempotencia|fallback|roadmap|gate crítico|\bleads\b/.test(html), prefix + "plain language");
   assert(!/\bPMS\b/.test(mainHtml), prefix + "plain language for booking software");
-  if (!contact.active) assert(!/href="mailto:/.test(html), prefix + "no unverified email action");
   const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
   assert(graph["@graph"].some((item) => item["@type"] === "Organization"), prefix + "organization schema");
   assert(graph["@graph"].some((item) => item.url === page.canonical && item["@type"] === "WebPage"), prefix + "page schema");
-  for (const match of html.matchAll(/(?:src|href)="(\/[^"#?]+)(?:#[^"]*)?"/g)) {
+  for (const match of html.matchAll(/(?:src|href|poster)="(\/[^"#?]+)(?:#[^"]*)?"/g)) {
     const target = match[1];
     if (target.endsWith("/")) assert(Object.values(pages).some((record) => new URL(record.canonical).pathname === target), prefix + "active internal route " + target);
     else await access(resolve(root, target.slice(1)));
   }
   const words = (content) => content.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
-  assert(words(mainHtml) < 1150, prefix + "the sales letter stays concise across all seven chapters");
+  const faqAnswers = [...faq.matchAll(/<p>([\s\S]*?)<\/p>/g)];
+  const expandedFaqWords = faqAnswers.reduce((total, answer) => total + words(answer[1]), 0);
+  assert(words(mainHtml) - expandedFaqWords < 1200, prefix + "the sales letter stays concise with FAQ answers collapsed");
   console.log(page.output + ": content, metadata, links and media verified (" + words(mainHtml) + " words)");
 }
 for (const [route, target] of legacyRoutes) {
@@ -119,4 +130,4 @@ assert(!/localStorage|formEndpoint/.test(app), "no prototype capture");
 const styles = await read("styles.css");
 assert(!/url\([^)]*\.(?:png|jpe?g|webp)/i.test(styles), "no CSS images");
 assert(styles.includes("prefers-reduced-motion"), "reduced motion");
-console.log("Verified 2 active pages and 18 legacy redirects. No new collection or indexing enabled.");
+console.log("Verified 2 active pages and 18 legacy redirects. Indexing remains disabled.");
