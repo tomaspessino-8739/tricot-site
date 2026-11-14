@@ -77,17 +77,15 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
   line-height: 1.15;
   text-wrap: pretty;
 }
-.letter-chapter p { font-size: clamp(1rem, 1.5vw, 1.1rem); line-height: 1.72; }
+.letter-chapter p { line-height: 1.72; }
 .letter-chapter p:last-child { margin-bottom: 0; }
-.letter-chapter .letter-lede { font-size: clamp(1.09rem, 1.8vw, 1.25rem); }
-.letter-chapter .kicker, .letter-chapter .letter-note, .source-link {
+.letter-chapter .kicker, .source-link {
   font-family: var(--body);
   font-size: .78rem;
   line-height: 1.65;
 }
 .letter-note, .source-link { color: var(--ink-soft); }
 .letter-dialogue { padding-inline-start: 16px; border-inline-start: 1px solid var(--line); }
-.letter-dialogue strong { font-family: var(--body); font-size: .8rem; }
 .letter-link, .source-link { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; }
 .letter-link { color: var(--ink); font-size: .8rem; font-weight: 650; }
 .letter-link:hover, .source-link:hover { color: var(--accent); }
@@ -116,7 +114,7 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
   text-wrap: pretty;
 }
 .application + .application { margin-top: 20px; }
-.letter-chapter .letter-emphasis { font-size: clamp(1.12rem, 2vw, 1.3rem); color: var(--accent); }
+.letter-chapter .letter-emphasis { color: var(--accent); }
 .letter-details { border-top: 1px solid var(--line); }
 .letter-details:last-child { border-bottom: 1px solid var(--line); }
 .letter-details summary { padding-block: 14px; font-size: .88rem; font-weight: 650; line-height: 1.5; cursor: pointer; }
