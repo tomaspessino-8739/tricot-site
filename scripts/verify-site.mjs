@@ -38,15 +38,11 @@ for (const page of Object.values(pages)) {
   assert(!chapter("story-title").includes('href="https://news.airbnb.com/instant-book-updates"'), prefix + "Airbnb story has no legacy source link");
   const example = chapter("connection-title");
   assert(/<video\b[^>]*\bcontrols\b/.test(example), prefix + "partner portal video with playback controls");
-  const proposal = page.lang === "es"
-    ? "Revisas la propuesta y tu agente se encarga del resto"
-    : "You review the proposal and your agent takes care of the rest";
-  const walkthrough = example.split("<p>" + proposal + "</p>")[1] ?? "";
-  assert(/^\s*<video\b[^>]*\bcontrols\b[^>]*controlslist="nodownload"[^>]*>\s*<source src="\/assets\/videos\/tricot-cash-flow-whatsapp\.mp4"/.test(walkthrough), prefix + "Cash Flow video directly follows the proposal");
+  assert(/<\/video>\s*<p>[^<]*\bPMS\b[^<]*WhatsApp[^<]*<\/p>\s*<video\b[^>]*\bcontrols\b[^>]*controlslist="nodownload"[^>]*>\s*<source src="\/assets\/videos\/tricot-cash-flow-whatsapp\.mp4"/.test(example), prefix + "Cash Flow video follows the handoff from the partner portal");
   assert(html.includes('rel="icon" href="/assets/brand/favicon-t.svg"'), prefix + "TRICOT T favicon retained");
   assert(html.includes('href="' + page.casesUrl + '"'), prefix + "case navigation");
   const founderSection = chapter("founder-title");
-  assert(/<p>[^<]*Tomas A\. Pessino,/.test(founderSection), prefix + "approved founder name in the introduction");
+  assert(/<p>[^<]*Thomas Andrew P\. /.test(founderSection), prefix + "approved founder name in the introduction");
   assert(founderSection.includes(page.lang === "es" ? "<strong>más de 100 operaciones inmobiliarias</strong>" : "<strong>more than 100 property transactions</strong>"), prefix + "transactions, not implementations");
   assert(!/<img\b|linkedin\.com/i.test(founderSection), prefix + "no founder photo or LinkedIn");
   const implementation = chapter("implementation-title");
@@ -64,7 +60,10 @@ for (const page of Object.values(pages)) {
   assert.deepEqual(cases.map(fragment => fragment.match(/<h4[^>]*aria-label="([^"]+)"/)?.[1] ?? fragment.match(/<h4[^>]*>([^<]+)<\/h4>/)?.[1]), [
     "Infinity 8 Real Estate", "EB Capital Consulting", "Lone Wolf LLC", "Aguamadera Ibiza", "OPAL Investments"
   ], prefix + "five approved cases");
-  assert(cases.every(fragment => !/\b\d+\s*%/.test(fragment)), prefix + "no unsupported case percentages");
+  const reportedProfit = page.lang === "es"
+    ? "<dt>Beneficio</dt><dd><strong>+50&nbsp;%</strong></dd>"
+    : "<dt>Profit</dt><dd><strong>+50%</strong></dd>";
+  assert(cases[0].includes(reportedProfit), prefix + "Infinity 8 reports profit");
   assert(cases[3].includes("channel manager") && cases[3].includes(page.lang === "es" ? "Asesoramos al hotel" : "We advised the hotel"), prefix + "hotel advisory scope");
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(ids.length, new Set(ids).size, prefix + "unique IDs");
@@ -88,7 +87,7 @@ for (const page of Object.values(pages)) {
   assert(/name="email" type="email"[^>]*\brequired\b/.test(contactForm), prefix + "email validation");
   if (!contact.endpoint) assert(/<button\b[^>]*\bdisabled\b/.test(contactForm), prefix + "submission waits for endpoint");
   assert(!/Forward Deployed|Palantir|idempotencia|fallback|roadmap|gate crítico|\bleads\b/.test(html), prefix + "plain language");
-  assert(!/\bPMS\b/.test(mainHtml), prefix + "plain language for booking software");
+  assert.equal((mainHtml.match(/\bPMS\b/g) || []).length, 1, prefix + "PMS appears only between the demo videos");
   const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
   assert(graph["@graph"].some((item) => item["@type"] === "Organization"), prefix + "organization schema");
   assert(graph["@graph"].some((item) => item.url === page.canonical && item["@type"] === "WebPage"), prefix + "page schema");
@@ -100,7 +99,8 @@ for (const page of Object.values(pages)) {
   const words = (content) => content.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
   const faqAnswers = [...faq.matchAll(/<p>([\s\S]*?)<\/p>/g)];
   const expandedFaqWords = faqAnswers.reduce((total, answer) => total + words(answer[1]), 0);
-  assert(words(mainHtml) - expandedFaqWords < 1200, prefix + "the sales letter stays concise with FAQ answers collapsed");
+  const expandedCaseWords = cases.slice(1).reduce((total, fragment) => total + words(fragment), 0);
+  assert(words(mainHtml) - expandedFaqWords - expandedCaseWords < 1200, prefix + "the sales letter stays concise with details collapsed");
   console.log(page.output + ": content, metadata, links and media verified (" + words(mainHtml) + " words)");
 }
 for (const [route, target] of legacyRoutes) {
