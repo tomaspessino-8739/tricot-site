@@ -42,7 +42,7 @@ for (const page of Object.values(pages)) {
   assert(html.includes('rel="icon" href="/assets/brand/favicon-t.svg"'), prefix + "TRICOT T favicon retained");
   assert(html.includes('href="' + page.casesUrl + '"'), prefix + "case navigation");
   const founderSection = chapter("founder-title");
-  assert(/<p>[^<]*Thomas Andrew P\. /.test(founderSection), prefix + "approved founder name in the introduction");
+  assert(/<p>[^<]*T\. A\. Pessino\. /.test(founderSection), prefix + "approved founder name in the introduction");
   assert(founderSection.includes(page.lang === "es" ? "<strong>más de 100 operaciones inmobiliarias</strong>" : "<strong>more than 100 property transactions</strong>"), prefix + "transactions, not implementations");
   assert(!/<img\b|linkedin\.com/i.test(founderSection), prefix + "no founder photo or LinkedIn");
   const implementation = chapter("implementation-title");
