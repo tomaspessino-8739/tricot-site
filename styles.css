@@ -95,6 +95,7 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
 .letter-link { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; }
 .letter-link { color: var(--ink); font-size: .8rem; font-weight: 650; }
 .letter-link:hover { color: var(--accent); }
+.letter-hero .button { font-family: var(--display); }
 .letter-photo {
   width: 88%;
   max-width: 460px;
@@ -102,6 +103,8 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
   margin: clamp(44px, 6vw, 76px) auto;
 }
 .letter-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 72%; }
+.letter-photo--diagram { width: 100%; max-width: 600px; aspect-ratio: auto; }
+.letter-photo--diagram img { height: auto; }
 .letter-list { padding-left: 1.35rem; margin: 0; }
 .letter-list > li { padding-left: .4rem; margin-block: 0 20px; }
 .letter-list > li::marker { color: var(--accent); }
@@ -119,7 +122,6 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
   line-height: 1.25;
   text-wrap: pretty;
 }
-.application + .application { margin-top: 20px; }
 .letter-chapter .letter-emphasis { color: var(--accent); }
 .letter-details { border-top: 1px solid var(--line); }
 .letter-details:last-child { border-bottom: 1px solid var(--line); }
@@ -182,7 +184,7 @@ p { margin: 0 0 20px; font-size: 1rem; line-height: 1.7; }
 
 .client-cases { --case-gap: 22px; }
 .client-cases .case-study { padding-bottom: var(--case-gap); }
-.client-cases > h3,
+.client-cases > h2,
 .client-cases .case-study > h4 { margin-bottom: var(--case-gap); }
 .client-cases .letter-details .case-study { margin-top: var(--case-gap); }
 .case-study > p { margin-bottom: 0; }
