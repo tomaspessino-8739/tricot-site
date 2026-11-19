@@ -25,7 +25,7 @@ for (const page of Object.values(pages)) {
   assert.equal((html.match(/<h1\b/g) || []).length, 1, prefix + "one H1");
   assert.equal((html.match(/<article class="application"/g) || []).length, 3, prefix + "three applications");
   const chapters = [...html.matchAll(/<section class="[^"]*letter-chapter"[^>]*aria-labelledby="([^"]+)"/g)].map(match => match[1]);
-  assert.deepEqual(chapters, ["hero-title", "story-title", "connection-title", "founder-title", "services-title", "implementation-title", "technology-title", "contact-title"], prefix + "sales-letter chapter order");
+  assert.deepEqual(chapters, ["hero-title", "story-title", "connection-title", "founder-title", "services-title", "implementation-title", "contact-title"], prefix + "sales-letter chapter order");
   const expectedOffer = page.lang === "es" ? "Consultora PropTech para gestoras de alquiler vacacional" : "PropTech consultancy for holiday rental operators";
   assert(html.includes('<p class="kicker">' + expectedOffer + '</p>'), prefix + "approved positioning in the hero");
   assert.equal(title, "TRICOT — " + expectedOffer, prefix + "positioning in metadata");
@@ -100,9 +100,7 @@ for (const page of Object.values(pages)) {
   const faqAnswers = [...faq.matchAll(/<p>([\s\S]*?)<\/p>/g)];
   const expandedFaqWords = faqAnswers.reduce((total, answer) => total + words(answer[1]), 0);
   const expandedCaseWords = cases.slice(1).reduce((total, fragment) => total + words(fragment), 0);
-  const technology = chapter("technology-title");
-  assert(words(technology) < 300, prefix + "the technical explanation stays concise");
-  assert(words(mainHtml) - expandedFaqWords - expandedCaseWords - words(technology) < 1200, prefix + "the sales letter stays concise with details collapsed");
+  assert(words(mainHtml) - expandedFaqWords - expandedCaseWords < 1200, prefix + "the sales letter stays concise with details collapsed");
   console.log(page.output + ": content, metadata, links and media verified (" + words(mainHtml) + " words)");
 }
 for (const [route, target] of legacyRoutes) {
