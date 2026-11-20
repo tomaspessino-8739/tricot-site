@@ -24,12 +24,21 @@ function render(template, values) {
 for (const page of Object.values(pages)) {
   const contactDelivery = contact.endpoint ? ' action="' + escape(contact.endpoint) + '"' : "";
   const contactAvailability = contact.endpoint ? "" : " disabled";
-  const contactHint = contact.endpoint ? "" : '<small>' + escape(page.contactHint) + '</small>';
-  const contactAction = '<form class="contact-action" method="post"' + contactDelivery + '>' +
+  const contactHint = '<small id="contact-note">' + escape(contact.endpoint ? page.contactPrivacy : page.contactHint) + '</small>';
+  const contactFields = contact.endpoint
+    ? '<input type="hidden" name="language" value="' + page.lang + '" />' +
+      '<div hidden><label for="contact-website">Website</label>' +
+      '<input id="contact-website" name="companyWebsite" tabindex="-1" autocomplete="off" /></div>'
+    : "";
+  const contactFeedback = contact.endpoint
+    ? '<small hidden role="status" data-contact-status data-sent="' + escape(page.contactSent) +
+      '" data-invalid="' + escape(page.contactInvalid) + '" data-error="' + escape(page.contactError) + '"></small>'
+    : "";
+  const contactAction = '<form class="contact-action" method="post"' + contactDelivery + '>' + contactFields +
     '<label class="contact-label" for="contact-email">' + escape(page.contactLabel) + '</label>' +
-    '<div class="contact-fields"><input id="contact-email" name="email" type="email" autocomplete="email" required />' +
+    '<div class="contact-fields"><input id="contact-email" name="email" type="email" autocomplete="email" aria-describedby="contact-note" required />' +
     '<button class="button" type="submit"' + contactAvailability + '>' + escape(page.contactButton) + '</button></div>' +
-    contactHint + '</form>';
+    contactHint + contactFeedback + '</form>';
   const body = render(await readFile(resolve(root, "src/home." + page.lang + ".html"), "utf8"), { CONTACT_ACTION: contactAction });
   const html = render(layout, {
     LANG: page.lang, ROBOTS: robotsDirective(page.canonical), DESCRIPTION: escape(page.description),

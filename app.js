@@ -19,5 +19,12 @@
     if (menuToggle?.getAttribute("aria-expanded") === "true" && !event.target.closest(".site-header")) closeMenu();
   });
   window.matchMedia("(max-width: 760px)").addEventListener("change", () => closeMenu());
+  const contactStatus = document.querySelector("[data-contact-status]");
+  const contactResult = new URLSearchParams(location.search).get("contact");
+  if (contactStatus && ["sent", "invalid", "error"].includes(contactResult)) {
+    contactStatus.textContent = contactStatus.dataset[contactResult];
+    contactStatus.hidden = false;
+  }
+
   document.querySelectorAll("[data-year]").forEach((node) => { node.textContent = String(new Date().getFullYear()); });
 })();

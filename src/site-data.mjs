@@ -1,7 +1,7 @@
 export const origin = "https://untricot.com";
 
 // Set this when the email intake endpoint is ready to receive submissions.
-export const contact = { endpoint: "" };
+export const contact = { endpoint: "https://tricot-contact.vercel.app/api/contact" };
 
 export const pages = {
   es: {
@@ -32,7 +32,11 @@ export const pages = {
     backToTop: "Volver arriba ↑",
     contactLabel: "Tu email",
     contactButton: "Quiero hablar",
-    contactHint: "El envío se activará cuando conectemos el formulario."
+    contactHint: "El envío se activará cuando conectemos el formulario.",
+    contactPrivacy: "Usaremos tu email para responder a esta solicitud.",
+    contactSent: "Hemos recibido tu email. Te escribiremos para ver por dónde empezar.",
+    contactInvalid: "Revisa la dirección de email y vuelve a intentarlo.",
+    contactError: "No se ha podido enviar. Inténtalo de nuevo en un momento."
   },
   en: {
     lang: "en",
@@ -62,7 +66,11 @@ export const pages = {
     backToTop: "Back to top ↑",
     contactLabel: "Your email",
     contactButton: "Let’s talk",
-    contactHint: "You can send your email once the form is connected."
+    contactHint: "You can send your email once the form is connected.",
+    contactPrivacy: "We’ll use your email to respond to this enquiry.",
+    contactSent: "We’ve received your email and will be in touch.",
+    contactInvalid: "Check your email address and try again.",
+    contactError: "We couldn’t send your request. Please try again in a moment."
   }
 };
 
